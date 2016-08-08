@@ -115,8 +115,25 @@
             <br>
         -->
         <div class="container">
+            <h1>Atención</h1>
+            <p>
+                Las personas que soliciten el Permiso por Internet, indicando un correo electrónico lo recibirán en la dirección escrita en este formulario. En caso contrario pueden retirar el Permiso en la oficina municipal que nos indiquen. <br><br>
+
+                Cuando los agentes de la autoridad lo requieran deberán aportar el DNI original o fotocopia, o permiso de conducir junto con el permiso de acampada. <br><br>
+
+                Este formulario digital ha sido enviado por correo electrónico a acampadas@pajara.es
+                Oficina de Servicios, sito en el Edificio de la Policia Local, Avda. de Jandía nº 13 de la localidad de Morro Jable. Teléfono 928 54 07 11
+                El Fax es 928 54 24 14.<br><br>
+
+            <dl>
+                <dt><h1>MUCHA ATENCIÓN:</h1></dt>
+                <dd>- No se enviarán autorizaciones a la Tenencia de Alcaldía de La Lajita.</dd>
+                <dd>- La solicitud de acampada no significa su autorización, esta sujeta a revisión según número de plazas y cumplimento de la normativa. </dd>
+                <dd>- Solo se permite una solicitud por Documento oficial, en caso de necesitar varias poner documentos distintos.  </dd>
+            </dl>
+
             <h1>Rellena la solicitud por favor</h1>
-            <br><br>
+            <br>
             <form method="post" action="FrontController">
                 <fieldset>
                     <legend>Información personal :</legend>
@@ -126,23 +143,28 @@
                     <input type="text" size="40" name="apellidos" placeholder="Introduce tus Apellidos"><br><br>
                     DNI:<br>
                     <input type="text" size="40" name="DNI" placeholder="Introduce tu DNI"><br><br>
-                    Municipio:<br>
-                    <input type="text" size="40" name="Municipio" placeholder="Introduce tu Municipio"><br><br>
+                    Municipio:
+                    <select name="municipioSelect" class="selectpicker">
+                        <option>Pajara</option>
+                        <option>La Oliva</option>
+                        <option>Tuineje</option>
+                    </select>
+                    <br><br>
                     Email:<br>
-                    <input type="text" size="40" name="Email" placeholder="Introduce tu email"><br><br>
+                    <input type="text" size="40" name="email" placeholder="Introduce tu email"><br><br>
                     Teléfono:<br>
-                    <input type="text" size="40" name="Telefono" placeholder="Introduce tu nº de teléfono"><br><br>
+                    <input type="text" size="40" name="telefono" placeholder="Introduce tu nº de teléfono"><br><br>
                 </fieldset>
 
                 <fieldset>
                     <legend>Información Acampada :</legend>
                     Fecha Entrada: <br>
-                    <input class="form-control" type="date" value="" id="example-date-input" style="width: 175px;">
+                    <input class="form-control" type="date" name="fechaentrada" value="" id="example-date-input" style="width: 175px;">
                     <br>
                     Fecha Salida: <br>
-                    <input class="form-control" type="date" value="" id="example-date-input" style="width: 175px;">
+                    <input class="form-control" type="date" name="fechasalida" value="" id="example-date-input" style="width: 175px;">
                     <br>
-                    
+
                     Playa: 
                     <select name="playaSelect" class="selectpicker">
                         <option>Garcey</option>
@@ -150,7 +172,7 @@
                         <option>Vigocho</option>
                     </select>
                     <br><br>
-                    
+
                     Vehículo:   
                     <select name="vehiculoSelect" class="selectpicker">
                         <option>Autocaravana</option>
@@ -158,11 +180,11 @@
                         <option>Vehículo + remolque</option>
                     </select>
                     <br><br>
-                    
+
                 </fieldset>
 
-                <input type="hidden" name="command" value="RegisterCommand">
-                <input type="submit" value="Register">
+                <input  type="hidden" name="command" value="RegisterCommand">
+                <input type="submit" value="Enviar Solicitud">
             </form>
         </div>
 
