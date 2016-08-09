@@ -5,9 +5,11 @@
  */
 package controllers;
 
+import com.itextpdf.text.DocumentException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 
 /**
@@ -19,11 +21,22 @@ public class RegisterCommand extends FrontCommand{
     @Override
     public void process() {
         try {
-            String aux = request.getParameter("nombre");
+            
+            /*String aux = request.getParameter("nombre");
             String aux2 = request.getParameter("apellidos");
             String aux3 = request.getParameter("DNI");
             String aux4 = request.getParameter("municipioSelect");
             String aux5 = request.getParameter("email");
+            */
+            pdfCommand test = new pdfCommand();
+            try {
+                test.createPdf("c:/ProyectoAcampadaRuben/prueba.pdf");
+            } catch (DocumentException ex) {
+                Logger.getLogger(RegisterCommand.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MessagingException ex) {
+                Logger.getLogger(RegisterCommand.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
             forward("/unknown.jsp");
         } catch (ServletException ex) {
             Logger.getLogger(RegisterCommand.class.getName()).log(Level.SEVERE, null, ex);
