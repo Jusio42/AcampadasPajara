@@ -40,7 +40,7 @@ public class pdfCommand extends FrontCommand {
     public static final String result = "c:/ProyectoAcampadaRuben/prueba.pdf";
 
     public void createPdf(String filename) throws DocumentException, IOException, MessagingException {
-        File file = new File("c:/ProyectoAcampadaRuben/prueba.txt");
+        //File file = new File("c:/ProyectoAcampadaRuben/prueba.txt");
         // step 1
         Document document = new Document();
         Paragraph preface = new Paragraph();
@@ -61,39 +61,46 @@ public class pdfCommand extends FrontCommand {
     }
 
     public void sendEmail() throws MessagingException {
-        final String username = "rubendavidbm@gmail.com";
-        final String password = "asusion742";
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
 
         Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
+                    protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
+                        return new javax.mail.PasswordAuthentication("rubendavidbm@gmail.com", "asusion742");
                     }
                 });
         try {
 
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("from-email@gmail.com"));
-            message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse("rubendavidbm@gmail.com"));
-            message.setSubject("Testing Subject");
-            message.setText("Dear Mail Crawler,"
-                    + "\n\n No spam to my email, please!");
+            MimeMessage msg = new MimeMessage(session);
+            //set message headers
+            msg.addHeader("Content-type", "text/HTML; charset=UTF-8");
+            msg.addHeader("format", "flowed");
+            msg.addHeader("Content-Transfer-Encoding", "8bit");
 
-            Transport.send(message);
+            msg.setFrom(new InternetAddress("rubendavidbm@gmail.com", "NoReply-JD"));
 
-            System.out.println("Done");
+            msg.setReplyTo(InternetAddress.parse("rubn_42mq@hotmail.com", false));
 
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            msg.setSubject("ASDSAD", "UTF-8");
+
+            msg.setText("asASDQWE", "UTF-8");
+
+            msg.setSentDate(new Date());
+
+            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse("rubendavidbm@gmail.com", false));
+            System.out.println("Message is ready");
+            Transport.send(msg);
+
+            System.out.println("EMail Sent Successfully!!");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
     private static void addEmptyLine(Paragraph paragraph, int number) {
