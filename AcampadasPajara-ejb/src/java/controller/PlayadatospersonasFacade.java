@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entities;
+package controller;
 
-import controller.Municipios;
+import entities.Playadatospersonas;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author W7
  */
 @Stateless
-public class MunicipiosFacade extends AbstractFacade<Municipios> {
+public class PlayadatospersonasFacade extends AbstractFacade<Playadatospersonas> {
     @PersistenceContext(unitName = "AcampadasPajara-ejbPU")
     private EntityManager em;
 
@@ -24,8 +24,8 @@ public class MunicipiosFacade extends AbstractFacade<Municipios> {
         return em;
     }
 
-    public MunicipiosFacade() {
-        super(Municipios.class);
+    public PlayadatospersonasFacade() {
+        super(Playadatospersonas.class);
     }
     
 }
