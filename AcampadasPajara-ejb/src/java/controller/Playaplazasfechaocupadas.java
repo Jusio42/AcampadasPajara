@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entities;
+package controller;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -125,7 +125,7 @@ public class Playaplazasfechaocupadas implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Playaplazasfechaocupadas[ ppfo=" + ppfo + " ]";
+        return "controller.Playaplazasfechaocupadas[ ppfo=" + ppfo + " ]";
     }
     
 }

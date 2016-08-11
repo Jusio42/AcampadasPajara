@@ -22,12 +22,26 @@ public class RegisterCommand extends FrontCommand{
     public void process() {
         try {
             
-            /*String aux = request.getParameter("nombre");
+            String aux = request.getParameter("nombre");
             String aux2 = request.getParameter("apellidos");
             String aux3 = request.getParameter("DNI");
             String aux4 = request.getParameter("municipioSelect");
-            String aux5 = request.getParameter("email");
-            */
+            String aux5 = request.getParameter("noMunicipio");
+            String aux6 = request.getParameter("direccion");
+            String aux7 = request.getParameter("email");
+            String aux8 = request.getParameter("fax");
+            String aux9 = request.getParameter("telefono");
+            String aux11 = request.getParameter("playaSelect");
+            String aux12 = request.getParameter("fechaentrada");
+            String aux13 = request.getParameter("fechasalida");
+            String aux14 = request.getParameter("personasCantidad");
+            String aux15 = request.getParameter("tipoAcampada");
+            String aux16 = request.getParameter("numeroCasetas");
+            String aux17 = request.getParameter("caravana");
+            String aux18 = request.getParameter("matriculaCaravana");
+            String aux19 = request.getParameter("optradio");
+            String aux21 = request.getParameter("observaciones");
+            
             pdfCommand test = new pdfCommand();
             try {
                 test.createPdf("c:/ProyectoAcampadaRuben/prueba.pdf");

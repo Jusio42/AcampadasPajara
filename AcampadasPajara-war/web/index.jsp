@@ -9,17 +9,13 @@
 
 <html>
     <head>
-
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
         <meta name="author" content="">
-
         <link href="css/bootstrap.min.css" rel="stylesheet">
-
         <link href="css/shop-homepage.css" rel="stylesheet">
-
         <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <script src="js/jquery.js"></script>
@@ -32,7 +28,6 @@
     <body>
         <div class="container">
             <h1>Atención</h1>
-
             <h4>
                 Las personas que soliciten el Permiso por Internet, indicando un correo electrónico lo recibirán en la dirección escrita en este formulario. En caso contrario pueden retirar el Permiso en la oficina municipal que nos indiquen. <br><br>
 
@@ -42,7 +37,6 @@
                 Oficina de Servicios, sito en el Edificio de la Policia Local, Avda. de Jandía nº 13 de la localidad de Morro Jable. Teléfono 928 54 07 11
                 El Fax es 928 54 24 14.<br><br>
             </h4>
-
             <dl>
                 <dt><h1>MUCHA ATENCIÓN:</h1></dt>
                 <dd><h4>- No se enviarán autorizaciones a la Tenencia de Alcaldía de La Lajita.</h4></dd>
@@ -65,14 +59,16 @@
                         Indicar número y letras de su documento oficial acreditativo.DNI,NIF o PASAPORTE (Poner el número completo y letra/s en mayúsculas, sin dejar espacios).<br>
                         <strong>SOLO 1 SOLICITUD POR DOCUMENTO</strong></h4>
                     <input type="text" size="40" name="DNI" placeholder="Introduce tu DNI"><br><br>
-                    <h4>Municipio donde reside actualmente. Si su municipio no está en este listado, rellene el campo de la derecha.<br>
+                    <h4>Municipio donde reside actualmente. Si su municipio no está en este listado, rellene el campo de abajo.<br>
                         Municipio:
                         <select name="municipioSelect"  class="selectpicker">
+                            <option> </option>
                             <option>Pajara</option>
                             <option>La Oliva</option>
                             <option>Tuineje</option>
                         </select>
-                        Escriba aquí su municipio:
+                        <br>
+                        Escriba aquí su municipio (en el caso de que no esté en el listado):
                         <input type="text" size="40" name="noMunicipio" placeholder="Introduce tu municipio"><br><br>
                     </h4>
                     <h4>
@@ -102,13 +98,11 @@
                         </select>
                         <br><br>
 
-                        Fecha Entrada: <br>
-                        Indique la FECHA DE ENTRADA:<br>
+                        Fecha Entrada (Indique la FECHA DE ENTRADA por favor): <br>
                         <input class="form-control" type="date" name="fechaentrada" value="" id="example-date-input" style="width: 175px;">
                         <br>
 
-                        Fecha Salida: <br>
-                        Indique la FECHA DE SALIDA:<br>
+                        Fecha Salida (Indique la FECHA DE SALIDA): <br>
                         <input class="form-control" type="date" name="fechasalida" value="" id="example-date-input" style="width: 175px;">
                         <br>
 
@@ -142,10 +136,10 @@
                         <br><br>
 
                         Caravanas:<br>
-                        Indique 0 si solo acampa con casetas o 1 si acampa con una caravana(en el caso de acampar con una caravana indique en el recuadro de la derecha la matrícula.) <br>
-                        <select name="numeroCasetas" class="selectpicker">
-                            <option>0</option>
-                            <option>1</option>
+                        Indique si solo acampa con casetas o  si acampa con una caravana(en el caso de acampar con una caravana indique en el recuadro de la derecha la matrícula.) <br>
+                        <select name="caravana" class="selectpicker">
+                            <option>Casetas</option>
+                            <option>Caravanas</option>
                         </select>
                         Indique la matrícula de la caravana (en el caso de que acampe con caravana)
                         <input type="text" size="40" name="matriculaCaravana" placeholder="Introduce la matrícula"><br><br>
@@ -153,32 +147,31 @@
 
                         Recoger:<br>
                         Indique el punto de recogida de su autorización. No se enviarán autorizaciones a la Tenencia de Alcaldía de La Lajita.<br>
-                        <form>
-                            <input type="radio" name="optradio" value="Ayuntamiento de Pájara (Plaza Nuestra Señora de Regla)" > Ayuntamiento de Pájara (Plaza Nuestra Señora de Regla)<br>
-                            <input type="radio" name="optradio" value="Usos Múltiples de Morro Jable (Edificio Policia Local)"> Usos Múltiples de Morro Jable (Edificio Policia Local)<br>
-                            <input type="radio" name="optradio" value="Tenencia de Alcaldía de Costa Calma"> Tenencia de Alcaldía de Costa Calma<br>
-                            <input type="radio" name="optradio" value="Por correo electrónico"> Por correo electrónico<br>
-                            <input type="radio" name="optradio" value="Por Fax"> Por Fax
-                        </form>
+                        <input type="radio" name="optradio" value="Ayuntamiento de Pájara (Plaza Nuestra Señora de Regla)" > Ayuntamiento de Pájara (Plaza Nuestra Señora de Regla)<br>
+                        <input type="radio" name="optradio" value="Usos Múltiples de Morro Jable (Edificio Policia Local)"> Usos Múltiples de Morro Jable (Edificio Policia Local)<br>
+                        <input type="radio" name="optradio" value="Tenencia de Alcaldía de Costa Calma"> Tenencia de Alcaldía de Costa Calma<br>
+                        <input type="radio" name="optradio" value="Por correo electrónico"> Por correo electrónico<br>
+                        <input type="radio" name="optradio" value="Por Fax"> Por Fax
 
                         <br>
                         <br>
-                        <div class="form-group">
-                            <label for="comment">Observaciones:</label>
-                            <textarea class="form-control" rows="5" id="observaciones"></textarea>
-                        </div>
                     </h4>
+                    <div class="form-group">
+                        <label for="comment">Observaciones:</label>
+                        <textarea class="form-control" name="observaciones" rows="5" id="observaciones"></textarea>
+                    </div>
                 </fieldset>
                 <center>
                     <br>
-                    <strong><h2>Por favor,antes de enviar la solicitud asegúrese de que todo es correcto.</h2></strong>
+                    <h2>
+                        <strong>Por favor,antes de enviar la solicitud asegúrese de que todo es correcto.</strong>
+                    </h2>
                     <br>
-
                     <input  type="hidden" name="command" value="RegisterCommand">
                     <input type="submit" value="Enviar Solicitud">
                     <br><br><br>
+                    <br><br><br>
                 </center>
         </div>
-
     </body>
 </html>
