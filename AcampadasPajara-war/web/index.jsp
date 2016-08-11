@@ -49,48 +49,46 @@
             <form method="post" action="FrontController">
                 <fieldset>
                     <legend>Información personal :</legend>
-                    <h4>Nombre:<br>
-                        (Como en documento oficial)</h4>
-                    <input type="text" size="40" name="nombre" placeholder="Introduce tu nombre"><br><br>
-                    <h4>Apellidos:<br>
-                        (Como en documento oficial)</h4>
-                    <input type="text" size="40" name="apellidos" placeholder="Introduce tus Apellidos"><br><br>
-                    <h4>DNI:<br>
-                        Indicar número y letras de su documento oficial acreditativo.DNI,NIF o PASAPORTE (Poner el número completo y letra/s en mayúsculas, sin dejar espacios).<br>
-                        <strong>SOLO 1 SOLICITUD POR DOCUMENTO</strong></h4>
-                    <input type="text" size="40" name="DNI" placeholder="Introduce tu DNI"><br><br>
+                    <h4><strong>Nombre</strong>(Como en documento oficial):
+                        <input type="text" size="10" name="nombre" placeholder="Introduce tu nombre">
+                    </h4><br>
+                    <h4><strong>Apellidos</strong>(Como en documento oficial):
+                        <input type="text" size="15" name="apellidos" placeholder="Introduce tus Apellidos">
+                    </h4><br>
+                    <h4>Indicar número y letras de su documento oficial acreditativo.<strong>DNI,NIF o PASAPORTE</strong> (Poner el número completo y letra/s en mayúsculas, sin dejar espacios):
+                        <br><strong>SOLO 1 SOLICITUD POR DOCUMENTO</strong>
+                        <input type="text" size="10" name="DNI" placeholder="Introduce tu DNI">
+                    </h4><br>
                     <h4>Municipio donde reside actualmente. Si su municipio no está en este listado, rellene el campo de abajo.<br>
-                        Municipio:
+                        <strong>Municipio:</strong>
                         <select name="municipioSelect"  class="selectpicker">
                             <option> </option>
                             <option>Pajara</option>
                             <option>La Oliva</option>
                             <option>Tuineje</option>
                         </select>
-                        <br>
-                        Escriba aquí su municipio (en el caso de que no esté en el listado):
-                        <input type="text" size="40" name="noMunicipio" placeholder="Introduce tu municipio"><br><br>
-                    </h4>
+                        Escriba aquí su <strong>municipio </strong>(en el caso de que <strong>NO ESTÉ EN EL LISTADO</strong>):
+                        <input type="text" size="15" name="noMunicipio" placeholder="Introduce tu municipio">
+                    </h4><br>
                     <h4>
-                        Dirección:<br>
-                        Calle,Urbanización,Avenida,etc...<br>
-                        <input type="text" size="40" name="direccion" placeholder="Introduce tu dirección"><br><br>
-                        Email:<br>
-                        Si no tiene correo electrónico,escriba en el recuadro el número 1 (Por favor, vigilen las MAYÚSCULAS y minúsculas).<br>
-                        <input type="text" size="40" name="email" placeholder="Introduce tu email"><br><br>
-                        Fax:<br>
-                        Si no tiene fax,escriba en el recuadro el número 1.<br>
-                        <input type="text" size="40" name="fax" placeholder="Introduce tu fax"><br><br>
-                        Teléfono:<br>
-                        Indicar número de teléfono, móvil o fijo. (Poner el número completo SIN ESPACIOS).<br>
-                        <input type="text" size="40" name="telefono" placeholder="Introduce tu nº de teléfono"><br><br>
+                        <strong>Dirección</strong>(Calle,Urbanización,Avenida,etc...):
+                        <input type="text" size="15" name="direccion" placeholder="Introduce tu dirección"><br><br>
+                        <br>
+                        <strong>Email</strong>(Si no tiene correo electrónico,escriba en el recuadro el número 1 (Por favor, vigilen las MAYÚSCULAS y minúsculas)):
+                        <input type="text" size="10" name="email" placeholder="Introduce tu email">
+                        <br><br>
+                        <strong>Fax</strong>(Si no tiene fax,escriba en el recuadro el número 1):
+                        <input type="text" size="10" name="fax" placeholder="Introduce tu fax">
+                        <br><br>
+                        <strong>Teléfono</strong>(Indicar número de teléfono, móvil o fijo. (Poner el número completo SIN ESPACIOS)):
+                        <input type="text" size="10" name="telefono" placeholder="Introduce tu nº de teléfono"><br><br>
                     </h4>
                 </fieldset>
 
                 <fieldset>
                     <legend>Información Acampada :</legend>
                     <h4>
-                        Zona: 
+                        <strong>Zona</strong>: 
                         <select name="playaSelect" class="selectpicker">
                             <option>Garcey</option>
                             <option>La Solapa</option>
@@ -98,16 +96,16 @@
                         </select>
                         <br><br>
 
-                        Fecha Entrada (Indique la FECHA DE ENTRADA por favor): <br>
+                        <strong>Fecha Entrada </strong>(Indique la FECHA DE ENTRADA por favor):
                         <input class="form-control" type="date" name="fechaentrada" value="" id="example-date-input" style="width: 175px;">
                         <br>
 
-                        Fecha Salida (Indique la FECHA DE SALIDA): <br>
+                        <strong>Fecha Salida </strong>(Indique la FECHA DE SALIDA):
                         <input class="form-control" type="date" name="fechasalida" value="" id="example-date-input" style="width: 175px;">
                         <br>
 
-                        Personas:<br>
-                        Indique el número total de personas que van a acampar.<br>
+                        <strong>Personas</strong>:
+                        Indique el número total de personas que van a acampar:
                         <select name="personasCantidad" class="selectpicker">
                             <option>1</option><option>2</option><option>3</option>
                             <option>4</option><option>5</option><option>6</option>
@@ -116,9 +114,8 @@
                         </select>
                         <br><br>
 
-                        Tipo:<br>
-                        Indique el TIPO DE ACAMPADA (Tamaño de la parcela 7,7 metros cuadrados, 
-                        solo esta permitida una caseta en caso de llevar caravana y solo se puede pedir una caravana por solicitud)<br>
+                        <strong>Tipo</strong>(Indique el <strong>TIPO DE ACAMPADA</strong> (Tamaño de la parcela 7,7 metros cuadrados, 
+                        solo esta permitida una caseta en caso de llevar caravana y solo se puede pedir una caravana por solicitud)):
                         <select name="tipoAcampada" class="selectpicker">
                             <option>Caseta</option>
                             <option>Caravana</option>
@@ -126,8 +123,7 @@
                         </select>
                         <br><br>
 
-                        Casetas:<br>
-                        Indique el NÚMERO DE CASETAS (Recuerde con Caravana máximo 1 caseta)<br>
+                        <strong>Casetas</strong>(Indique el NÚMERO DE CASETAS (Recuerde con Caravana máximo 1 caseta)):
                         <select name="numeroCasetas" class="selectpicker">
                             <option>0</option>
                             <option>1</option>
@@ -135,24 +131,22 @@
                         </select>
                         <br><br>
 
-                        Caravanas:<br>
-                        Indique si solo acampa con casetas o  si acampa con una caravana(en el caso de acampar con una caravana indique en el recuadro de la derecha la matrícula.) <br>
+                        <strong>Caravanas</strong> (Indique si solo acampa con casetas o  si acampa con una caravana(en el caso de acampar con una caravana indique en el recuadro de la derecha la matrícula)):
                         <select name="caravana" class="selectpicker">
                             <option>Casetas</option>
                             <option>Caravanas</option>
                         </select>
-                        Indique la matrícula de la caravana (en el caso de que acampe con caravana)
-                        <input type="text" size="40" name="matriculaCaravana" placeholder="Introduce la matrícula"><br><br>
-                        <br>
+                        <br><br>
 
-                        Recoger:<br>
-                        Indique el punto de recogida de su autorización. No se enviarán autorizaciones a la Tenencia de Alcaldía de La Lajita.<br>
-                        <input type="radio" name="optradio" value="Ayuntamiento de Pájara (Plaza Nuestra Señora de Regla)" > Ayuntamiento de Pájara (Plaza Nuestra Señora de Regla)<br>
-                        <input type="radio" name="optradio" value="Usos Múltiples de Morro Jable (Edificio Policia Local)"> Usos Múltiples de Morro Jable (Edificio Policia Local)<br>
-                        <input type="radio" name="optradio" value="Tenencia de Alcaldía de Costa Calma"> Tenencia de Alcaldía de Costa Calma<br>
-                        <input type="radio" name="optradio" value="Por correo electrónico"> Por correo electrónico<br>
+                        Indique la <strong>matrícula de la caravana </strong>(en el caso de que acampe con caravana)
+                        <input type="text" size="10" name="matriculaCaravana" placeholder="Introduce la matrícula"><br><br>
+
+                        <strong>Recoger</strong>(Indique el punto de recogida de su autorización. No se enviarán autorizaciones a la Tenencia de Alcaldía de La Lajita):<br>
+                        <input type="radio" name="optradio" value="Ayuntamiento de Pajara (Plaza Nuestra Señora de Regla)" > Ayuntamiento de Pájara (Plaza Nuestra Señora de Regla)<br>
+                        <input type="radio" name="optradio" value="Usos Multiples de Morro Jable (Edificio Policia Local)"> Usos Múltiples de Morro Jable (Edificio Policia Local)<br>
+                        <input type="radio" name="optradio" value="Tenencia de Alcaldia de Costa Calma"> Tenencia de Alcaldía de Costa Calma<br>
+                        <input type="radio" name="optradio" value="Por correo electronico"> Por correo electrónico<br>
                         <input type="radio" name="optradio" value="Por Fax"> Por Fax
-
                         <br>
                         <br>
                     </h4>
