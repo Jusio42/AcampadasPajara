@@ -160,6 +160,10 @@ public class Playadatospersonas implements Serializable {
         this.observaciones = observaciones;
     }
 
+    public Playadatospersonas(Object object, String playa, String nombre, String apellidos, String dni, String municipio, String email, String telefono, Date date, Date date0, String cantidadPersonas, String tipoAcampada, String numeroCasetas, String caravanaOCaseta, String matriculaCaravana, String observaciones) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public Integer getPdpId() {
         return pdpId;
     }

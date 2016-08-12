@@ -4,6 +4,10 @@
     Author     : Jusio
 --%>
 
+<%@page import="entities.Playaplazasmaximasasociadas"%>
+<%@page import="entities.Municipios"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
@@ -50,7 +54,7 @@
                 <fieldset>
                     <legend>Información personal :</legend>
                     <h4><strong>Nombre</strong>(Como en documento oficial):
-                        <input type="text" size="10" name="nombre" placeholder="Introduce tu nombre">
+                        <input type="text" size="15" name="nombre" placeholder="Introduce tu nombre">
                     </h4><br>
                     <h4><strong>Apellidos</strong>(Como en documento oficial):
                         <input type="text" size="15" name="apellidos" placeholder="Introduce tus Apellidos">
@@ -61,21 +65,28 @@
                     </h4><br>
                     <h4>Municipio donde reside actualmente. Si su municipio no está en este listado, rellene el campo de abajo.<br>
                         <strong>Municipio:</strong>
+
                         <select name="municipioSelect"  class="selectpicker">
                             <option> </option>
-                            <option>Pajara</option>
-                            <option>La Oliva</option>
-                            <option>Tuineje</option>
+                            <%
+                                List<Municipios> listadoMunicipios = (List<Municipios>) request.getAttribute("listadoMunicipios");
+                                for (Municipios municipio : listadoMunicipios) {
+                            %>
+                            <option><%=municipio.getMunicipio()%></option>
+                            <%
+                                }
+                            %>
                         </select>
+                        <br>
                         Escriba aquí su <strong>municipio </strong>(en el caso de que <strong>NO ESTÉ EN EL LISTADO</strong>):
-                        <input type="text" size="15" name="noMunicipio" placeholder="Introduce tu municipio">
+                        <input type="text" size="20" name="noMunicipio" placeholder="Introduce tu municipio">
                     </h4><br>
                     <h4>
                         <strong>Dirección</strong>(Calle,Urbanización,Avenida,etc...):
-                        <input type="text" size="15" name="direccion" placeholder="Introduce tu dirección"><br><br>
+                        <input type="text" size="20" name="direccion" placeholder="Introduce tu dirección"><br><br>
                         <br>
                         <strong>Email</strong>(Si no tiene correo electrónico,escriba en el recuadro el número 1 (Por favor, vigilen las MAYÚSCULAS y minúsculas)):
-                        <input type="text" size="10" name="email" placeholder="Introduce tu email">
+                        <input type="text" size="20" name="email" placeholder="Introduce tu email">
                         <br><br>
                         <strong>Fax</strong>(Si no tiene fax,escriba en el recuadro el número 1):
                         <input type="text" size="10" name="fax" placeholder="Introduce tu fax">
@@ -90,9 +101,14 @@
                     <h4>
                         <strong>Zona</strong>: 
                         <select name="playaSelect" class="selectpicker">
-                            <option>Garcey</option>
-                            <option>La Solapa</option>
-                            <option>Vigocho</option>
+                             <%
+                                List<Playaplazasmaximasasociadas> playas = (List<Playaplazasmaximasasociadas>) request.getAttribute("playas");
+                                for (Playaplazasmaximasasociadas playa : playas) {
+                            %>
+                                <option><%=playa.getNombreplaya()%></option>
+                             <%
+                                }
+                             %>
                         </select>
                         <br><br>
 
