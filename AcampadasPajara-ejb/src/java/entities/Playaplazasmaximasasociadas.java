@@ -105,7 +105,7 @@ public class Playaplazasmaximasasociadas implements Serializable {
 
     @Override
     public String toString() {
-        return "controller.Playaplazasmaximasasociadas[ ppmaId=" + ppmaId + " ]";
+        return "entities.Playaplazasmaximasasociadas[ ppmaId=" + ppmaId + " ]";
     }
     
 }

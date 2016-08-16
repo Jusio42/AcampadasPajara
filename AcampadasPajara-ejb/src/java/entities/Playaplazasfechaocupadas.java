@@ -6,7 +6,6 @@
 package entities;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,8 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -49,9 +46,9 @@ public class Playaplazasfechaocupadas implements Serializable {
     private String playa;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 144)
     @Column(name = "FECHA")
-    @Temporal(TemporalType.DATE)
-    private Date fecha;
+    private String fecha;
     @Basic(optional = false)
     @NotNull
     @Column(name = "PLAZAS")
@@ -64,7 +61,7 @@ public class Playaplazasfechaocupadas implements Serializable {
         this.ppfo = ppfo;
     }
 
-    public Playaplazasfechaocupadas(Integer ppfo, String playa, Date fecha, int plazas) {
+    public Playaplazasfechaocupadas(Integer ppfo, String playa, String fecha, int plazas) {
         this.ppfo = ppfo;
         this.playa = playa;
         this.fecha = fecha;
@@ -87,11 +84,11 @@ public class Playaplazasfechaocupadas implements Serializable {
         this.playa = playa;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 
@@ -125,7 +122,7 @@ public class Playaplazasfechaocupadas implements Serializable {
 
     @Override
     public String toString() {
-        return "controller.Playaplazasfechaocupadas[ ppfo=" + ppfo + " ]";
+        return "entities.Playaplazasfechaocupadas[ ppfo=" + ppfo + " ]";
     }
     
 }

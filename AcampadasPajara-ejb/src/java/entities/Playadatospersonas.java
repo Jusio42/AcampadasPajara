@@ -6,7 +6,6 @@
 package entities;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,8 +16,6 @@ import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -93,14 +90,14 @@ public class Playadatospersonas implements Serializable {
     private String telefono;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 144)
     @Column(name = "FECHA_ENTRADA")
-    @Temporal(TemporalType.DATE)
-    private Date fechaEntrada;
+    private String fechaEntrada;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 144)
     @Column(name = "FECHA_SALIDA")
-    @Temporal(TemporalType.DATE)
-    private Date fechaSalida;
+    private String fechaSalida;
     @Basic(optional = false)
     @NotNull
     @Column(name = "NUM_PERSONAS")
@@ -141,7 +138,7 @@ public class Playadatospersonas implements Serializable {
         this.pdpId = pdpId;
     }
 
-    public Playadatospersonas(Integer pdpId, String playa, String nombrepersona, String apellido, String dni, String municipio, String email, String telefono, Date fechaEntrada, Date fechaSalida, int numPersonas, String tipoAcamp, int numCasetas, String caraCase, String recoger, String observaciones) {
+    public Playadatospersonas(Integer pdpId, String playa, String nombrepersona, String apellido, String dni, String municipio, String email, String telefono, String fechaEntrada, String fechaSalida, int numPersonas, String tipoAcamp, int numCasetas, String caraCase, String recoger, String observaciones) {
         this.pdpId = pdpId;
         this.playa = playa;
         this.nombrepersona = nombrepersona;
@@ -158,10 +155,6 @@ public class Playadatospersonas implements Serializable {
         this.caraCase = caraCase;
         this.recoger = recoger;
         this.observaciones = observaciones;
-    }
-
-    public Playadatospersonas(Object object, String playa, String nombre, String apellidos, String dni, String municipio, String email, String telefono, Date date, Date date0, String cantidadPersonas, String tipoAcampada, String numeroCasetas, String caravanaOCaseta, String matriculaCaravana, String observaciones) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public Integer getPdpId() {
@@ -228,19 +221,19 @@ public class Playadatospersonas implements Serializable {
         this.telefono = telefono;
     }
 
-    public Date getFechaEntrada() {
+    public String getFechaEntrada() {
         return fechaEntrada;
     }
 
-    public void setFechaEntrada(Date fechaEntrada) {
+    public void setFechaEntrada(String fechaEntrada) {
         this.fechaEntrada = fechaEntrada;
     }
 
-    public Date getFechaSalida() {
+    public String getFechaSalida() {
         return fechaSalida;
     }
 
-    public void setFechaSalida(Date fechaSalida) {
+    public void setFechaSalida(String fechaSalida) {
         this.fechaSalida = fechaSalida;
     }
 
@@ -322,7 +315,7 @@ public class Playadatospersonas implements Serializable {
 
     @Override
     public String toString() {
-        return "controller.Playadatospersonas[ pdpId=" + pdpId + " ]";
+        return "entities.Playadatospersonas[ pdpId=" + pdpId + " ]";
     }
     
 }

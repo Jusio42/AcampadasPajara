@@ -6,7 +6,6 @@
 package entities;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,8 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -67,14 +64,14 @@ public class Historial implements Serializable {
     private String dni;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 144)
     @Column(name = "FECHA_ENTRADA")
-    @Temporal(TemporalType.DATE)
-    private Date fechaEntrada;
+    private String fechaEntrada;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 144)
     @Column(name = "FECHA_SALIDA")
-    @Temporal(TemporalType.DATE)
-    private Date fechaSalida;
+    private String fechaSalida;
 
     public Historial() {
     }
@@ -83,7 +80,7 @@ public class Historial implements Serializable {
         this.histId = histId;
     }
 
-    public Historial(Integer histId, String playa, String nombrepersona, String apellido, String dni, Date fechaEntrada, Date fechaSalida) {
+    public Historial(Integer histId, String playa, String nombrepersona, String apellido, String dni, String fechaEntrada, String fechaSalida) {
         this.histId = histId;
         this.playa = playa;
         this.nombrepersona = nombrepersona;
@@ -133,19 +130,19 @@ public class Historial implements Serializable {
         this.dni = dni;
     }
 
-    public Date getFechaEntrada() {
+    public String getFechaEntrada() {
         return fechaEntrada;
     }
 
-    public void setFechaEntrada(Date fechaEntrada) {
+    public void setFechaEntrada(String fechaEntrada) {
         this.fechaEntrada = fechaEntrada;
     }
 
-    public Date getFechaSalida() {
+    public String getFechaSalida() {
         return fechaSalida;
     }
 
-    public void setFechaSalida(Date fechaSalida) {
+    public void setFechaSalida(String fechaSalida) {
         this.fechaSalida = fechaSalida;
     }
 
@@ -171,7 +168,7 @@ public class Historial implements Serializable {
 
     @Override
     public String toString() {
-        return "controller.Historial[ histId=" + histId + " ]";
+        return "entities.Historial[ histId=" + histId + " ]";
     }
     
 }

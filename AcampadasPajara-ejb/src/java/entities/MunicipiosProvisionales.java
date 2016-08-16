@@ -93,7 +93,7 @@ public class MunicipiosProvisionales implements Serializable {
 
     @Override
     public String toString() {
-        return "controller.MunicipiosProvisionales[ muniProvId=" + muniProvId + " ]";
+        return "entities.MunicipiosProvisionales[ muniProvId=" + muniProvId + " ]";
     }
     
 }
