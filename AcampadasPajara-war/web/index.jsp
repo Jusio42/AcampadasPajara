@@ -61,7 +61,7 @@
                     </h4><br>
                     <h4>Indicar número y letras de su documento oficial acreditativo.<strong>DNI,NIF o PASAPORTE</strong> (Poner el número completo y letra/s en mayúsculas, sin dejar espacios):
                         <br><strong>SOLO 1 SOLICITUD POR DOCUMENTO (p.e : 12345678X)</strong>
-                        <input type="text" maxlength="10" size="10" name="DNI" placeholder="Introduce tu DNI">
+                        <input type="text" maxlength="9" size="10" name="DNI" placeholder="Introduce tu DNI">
                     </h4><br>
                     <h4>Municipio donde reside actualmente. Si su municipio no está en este listado, rellene el campo de abajo.<br>
                         <strong>Municipio:</strong>
