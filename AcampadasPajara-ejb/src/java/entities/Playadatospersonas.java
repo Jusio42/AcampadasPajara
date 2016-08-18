@@ -37,6 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Playadatospersonas.findByMunicipio", query = "SELECT p FROM Playadatospersonas p WHERE p.municipio = :municipio"),
     @NamedQuery(name = "Playadatospersonas.findByEmail", query = "SELECT p FROM Playadatospersonas p WHERE p.email = :email"),
     @NamedQuery(name = "Playadatospersonas.findByTelefono", query = "SELECT p FROM Playadatospersonas p WHERE p.telefono = :telefono"),
+    @NamedQuery(name = "Playadatospersonas.findByFax", query = "SELECT p FROM Playadatospersonas p WHERE p.fax = :fax"),
     @NamedQuery(name = "Playadatospersonas.findByFechaEntrada", query = "SELECT p FROM Playadatospersonas p WHERE p.fechaEntrada = :fechaEntrada"),
     @NamedQuery(name = "Playadatospersonas.findByFechaSalida", query = "SELECT p FROM Playadatospersonas p WHERE p.fechaSalida = :fechaSalida"),
     @NamedQuery(name = "Playadatospersonas.findByNumPersonas", query = "SELECT p FROM Playadatospersonas p WHERE p.numPersonas = :numPersonas"),
@@ -88,6 +89,10 @@ public class Playadatospersonas implements Serializable {
     @Size(min = 1, max = 144)
     @Column(name = "TELEFONO")
     private String telefono;
+    // @Pattern(regexp="^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$", message="Invalid phone/fax format, should be as xxx-xxx-xxxx")//if the field contains phone or fax number consider using this annotation to enforce field validation
+    @Size(max = 144)
+    @Column(name = "FAX")
+    private String fax;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 144)
@@ -124,10 +129,8 @@ public class Playadatospersonas implements Serializable {
     @Size(min = 1, max = 144)
     @Column(name = "RECOGER")
     private String recoger;
-    @Basic(optional = false)
-    @NotNull
     @Lob
-    @Size(min = 1, max = 32700)
+    @Size(max = 32700)
     @Column(name = "OBSERVACIONES")
     private String observaciones;
 
@@ -138,7 +141,7 @@ public class Playadatospersonas implements Serializable {
         this.pdpId = pdpId;
     }
 
-    public Playadatospersonas(Integer pdpId, String playa, String nombrepersona, String apellido, String dni, String municipio, String email, String telefono, String fechaEntrada, String fechaSalida, int numPersonas, String tipoAcamp, int numCasetas, String caraCase, String recoger, String observaciones) {
+    public Playadatospersonas(Integer pdpId, String playa, String nombrepersona, String apellido, String dni, String municipio, String email, String telefono, String fechaEntrada, String fechaSalida, int numPersonas, String tipoAcamp, int numCasetas, String caraCase, String recoger) {
         this.pdpId = pdpId;
         this.playa = playa;
         this.nombrepersona = nombrepersona;
@@ -154,7 +157,6 @@ public class Playadatospersonas implements Serializable {
         this.numCasetas = numCasetas;
         this.caraCase = caraCase;
         this.recoger = recoger;
-        this.observaciones = observaciones;
     }
 
     public Integer getPdpId() {
@@ -219,6 +221,14 @@ public class Playadatospersonas implements Serializable {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public String getFax() {
+        return fax;
+    }
+
+    public void setFax(String fax) {
+        this.fax = fax;
     }
 
     public String getFechaEntrada() {
@@ -315,7 +325,7 @@ public class Playadatospersonas implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Playadatospersonas[ pdpId=" + pdpId + " ]";
+        return "controller.Playadatospersonas[ pdpId=" + pdpId + " ]";
     }
     
 }

@@ -79,20 +79,20 @@
                         </select>
                         <br>
                         Escriba aquí su <strong>municipio </strong>(en el caso de que <strong>NO ESTÉ EN EL LISTADO</strong>):
-                        <input type="text" size="20" name="noMunicipio" placeholder="Introduce tu municipio">
+                        <input type="text" size="30" name="noMunicipio" placeholder="Introduce tu municipio">
                     </h4><br>
                     <h4>
                         <strong>Dirección</strong>(Calle,Urbanización,Avenida,etc...):
-                        <input type="text" size="20" name="direccion" placeholder="Introduce tu dirección"><br><br>
+                        <input type="text" size="30" name="direccion" placeholder="Introduce tu dirección"><br><br>
                         <br>
                         <strong>Email</strong>(Si no tiene correo electrónico,escriba en el recuadro el número 1 (Por favor, vigilen las MAYÚSCULAS y minúsculas)):
                         <input type="text" size="20" name="email" placeholder="Introduce tu email">
                         <br><br>
                         <strong>Fax</strong>(Si no tiene fax,escriba en el recuadro el número 1):
-                        <input type="text" size="10" name="fax" placeholder="Introduce tu fax">
+                        <input type="text" size="9" name="fax" placeholder="Introduce tu fax">
                         <br><br>
                         <strong>Teléfono</strong>(Indicar número de teléfono, móvil o fijo. (Poner el número completo SIN ESPACIOS)):
-                        <input type="text" size="10" name="telefono" placeholder="Introduce tu nº de teléfono"><br><br>
+                        <input type="text" size="9" name="telefono" placeholder="Introduce tu nº de teléfono"><br><br>
                     </h4>
                 </fieldset>
 
@@ -101,14 +101,14 @@
                     <h4>
                         <strong>Zona</strong>: 
                         <select name="playaSelect" class="selectpicker">
-                             <%
+                            <%
                                 List<Playaplazasmaximasasociadas> playas = (List<Playaplazasmaximasasociadas>) request.getAttribute("playas");
                                 for (Playaplazasmaximasasociadas playa : playas) {
                             %>
-                                <option><%=playa.getNombreplaya()%></option>
-                             <%
+                            <option><%=playa.getNombreplaya()%></option>
+                            <%
                                 }
-                             %>
+                            %>
                         </select>
                         <br><br>
 
@@ -139,6 +139,9 @@
                         </select>
                         <br><br>
 
+                        Indique la <strong>matrícula de la caravana </strong>(en el caso de que acampe con caravana)
+                        <input type="text" size="10" name="matriculaCaravana" placeholder="Introduce la matrícula"><br><br>
+                        
                         <strong>Casetas</strong>(Indique el NÚMERO DE CASETAS (Recuerde con Caravana máximo 1 caseta)):
                         <select name="numeroCasetas" class="selectpicker">
                             <option>0</option>
@@ -147,15 +150,14 @@
                         </select>
                         <br><br>
 
+                        <!-- 
                         <strong>Caravanas</strong> (Indique si solo acampa con casetas o  si acampa con una caravana(en el caso de acampar con una caravana indique en el recuadro de la derecha la matrícula)):
                         <select name="caravana" class="selectpicker">
                             <option>Casetas</option>
                             <option>Caravanas</option>
                         </select>
                         <br><br>
-
-                        Indique la <strong>matrícula de la caravana </strong>(en el caso de que acampe con caravana)
-                        <input type="text" size="10" name="matriculaCaravana" placeholder="Introduce la matrícula"><br><br>
+                        -->
 
                         <strong>Recoger</strong>(Indique el punto de recogida de su autorización. No se enviarán autorizaciones a la Tenencia de Alcaldía de La Lajita):<br>
                         <input type="radio" name="optradio" value="Ayuntamiento de Pajara (Plaza Nuestra Señora de Regla)" > Ayuntamiento de Pájara (Plaza Nuestra Señora de Regla)<br>
