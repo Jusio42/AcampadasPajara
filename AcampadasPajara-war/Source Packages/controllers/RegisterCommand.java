@@ -96,40 +96,40 @@ public class RegisterCommand extends FrontCommand {
 
             //----- NOMBRE
             if (!comprobarQueNoEstaVacio(nombre)) {
-                posibleError += "- No ha introducido ningún nombre en el campo nombre.<br>";
+                posibleError += "Nombre : - No ha introducido ningún nombre en el campo nombre.<br>";
             }
             if (!comprobarSiHayNumero(nombre)) {
-                posibleError += "- Ha introducido un número en el nombre en el campo nombre.<br>";
+                posibleError += "Nombre : - Ha introducido un número en el nombre en el campo nombre.<br>";
             }
 
             //----- APELLIDOS
             if (!comprobarQueNoEstaVacio(apellidos)) {
-                posibleError += "- No ha introducido ningún apellido en el campo apellido.<br>";
+                posibleError += "Apellidos : - No ha introducido ningún apellido en el campo apellido.<br>";
             }
             if (!comprobarSiHayNumero(apellidos)) {
-                posibleError += "- Ha introducido un número en el nombre en el campo apelido.<br>";
+                posibleError += "Apellidos : - Ha introducido un número en el nombre en el campo apelido.<br>";
             }
 
             //----- DNI
             if (!comprobarSiEstaDNI(dni, fechaEntrada)) {
-                posibleError += "- Hemos encontrado una petición suya para el día y playa solicitada.";
+                posibleError += "DNI : - Hemos encontrado una petición suya para el día y playa solicitada.";
                 posibleError += "Por favor escoja otro periodo.<br>";
             }
             if (!comprobarFormaCorrecta(dni)) {
-                posibleError += "- El DNI introducido NO es valido.<br>";
+                posibleError += "DNI : - El DNI introducido NO es valido.<br>";
             }
             if (!comprobarQueNoEstaVacio(dni)) {
-                posibleError += "- Introduzca un DNI por favor.<br>";
+                posibleError += "DNI : - Introduzca un DNI por favor.<br>";
             }
 
             //----- MUNICIPIOS
             if (municipio.length() == 0) {
                 if (nomunicipio.length() == 0) {
-                    posibleError += "Tiene que introducir un municipio.<br>";
+                    posibleError += "Municipio : - Tiene que introducir un municipio.<br>";
                     setErrorTrue();
                 } else {
                     if (comprobarQueMunicipioDeVerdadNoEsta(nomunicipio)) {
-                        posibleError += "El municipio introducido por usted si existe,seleccionelo del listado por favor.<br>";
+                        posibleError += "Municipio : - El municipio introducido por usted si existe,seleccionelo del listado por favor.<br>";
                         setErrorTrue();
                     }
                 }
@@ -137,49 +137,49 @@ public class RegisterCommand extends FrontCommand {
 
             //----- DIRECCION
             if (!comprobarQueNoEstaVacio(direccion)) {
-                posibleError += "La dirección no puede quedar vacía.<br>";
+                posibleError += "Direccion : - La dirección no puede quedar vacía.<br>";
             }
 
             //----- EMAIL
             if (!comprobacionesEmail(email)) {
-                posibleError += "El correo electrónico no es válido.<br>";
+                posibleError += "Email : - El correo electrónico no es válido.<br>";
             }
              if (!comprobarQueNoEstaVacio(email)) {
-                posibleError += "- Introduzca un email por favor.<br>";
+                posibleError += "Email : - Introduzca un email por favor.<br>";
             }
 
             //----- FAX
             if (!comprobarQueNoHayLetras(fax)) {
-                posibleError += "El Fax introducido no es válido.<br>";
+                posibleError += "Fax : - El Fax introducido no es válido.<br>";
             }
             if (!comprobarQueNoEsNulo(fax)) {
                 fax = "Sin fax";
             }
             if (!comprobarCorrectoNumero(fax)) {
-                posibleError += "El Fax introducido no es válido.<br>";
+                posibleError += "Fax : - El Fax introducido no es válido.<br>";
             }
 
             //----- TELEFONO
             if (!comprobarQueNoHayLetras(telefono)) {
-                posibleError += "El Telefono introducido no es válido.<br>";
+                posibleError += "Telefono : - El Telefono introducido no es válido.<br>";
             }
             if (!comprobarCorrectoNumero(telefono)) {
-                posibleError += "El telefono introducido no es válido.<br>";
+                posibleError += "Telefono : - El telefono introducido no es válido.<br>";
             }
 
             //----- FECHAS Y PLAYA
             String posiblesFechasIncompatibles = "";
 
             if (fechaEntrada.length() == 0 || fechaSalida.length() == 0) {
-                posibleError += "Especifica tanto la fecha de entrada como de salida por favor.<br>";
+                posibleError += "Periodo : - Especifica tanto la fecha de entrada como de salida por favor.<br>";
             } else {
                 if (!comprobarFechaSalidaMayorQueFechaEntrada(fechaEntrada, fechaSalida)) {
                     setErrorTrue();
-                    posibleError += "La fecha de salida es anterior a la de entrada, revisalo por favor.<br>";
+                    posibleError += "Periodo : - La fecha de salida es anterior a la de entrada, revisalo por favor.<br>";
                 } else {
                     posiblesFechasIncompatibles = comprobarSiHayPlazasEnUnRangoDeFecha(playa, fechaEntrada, fechaSalida);
                     if (posiblesFechasIncompatibles.length() != 0) {
-                        posibleError += "El rango especificado no es válido debido a que hay fechas intermedias "
+                        posibleError += "Periodo : - El rango especificado no es válido debido a que hay fechas intermedias "
                                 + "en que la playa seleccionada no dispone de plazas.<br>" + posiblesFechasIncompatibles;
                     }
                 }
@@ -191,10 +191,10 @@ public class RegisterCommand extends FrontCommand {
             }
 
             if (!comprobarCaravanaParaIntroducirMatricula(tipoAcampada, matriculaCaravana)) {
-                posibleError += "Por favor introduza la matrícula de su caravana.<br>";
+                posibleError += "Matricula Caravana : - Por favor introduza la matrícula de su caravana.<br>";
             }
             if (!comprobarCaravanaSoloUnaCaseta(tipoAcampada, numeroCasetas)) {
-                posibleError += "No puede solicitar mas de una caseta si va con caravana.<br>";
+                posibleError += "Matricula Caravana : - No puede solicitar mas de una caseta si va con caravana.<br>";
             }
 
             //----- OBSERVACIONES
