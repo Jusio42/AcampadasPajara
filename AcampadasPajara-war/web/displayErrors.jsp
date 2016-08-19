@@ -23,13 +23,13 @@
 
     </head>
     <body>
-
+    <center>
         <h1>A continuación se listan una serie de problemas encontrados,revisalos por favor :</h1>
         <%
             String problemas = (String) session.getAttribute("problemas");
         %>
         <p style="color:red" class="lead"><%=problemas%></p><br><br>
-    <center>
+
         <h3>La reserva no se ha efectuado, puede volver atras y rellenar correctamente el formualario.</h3>
     </center>
 </body>
