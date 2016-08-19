@@ -48,14 +48,14 @@
                 <fieldset>
                     <legend>Información personal :</legend>
                     <h4><strong>Nombre</strong>(Como en documento oficial):
-                        <input type="text" size="15" name="nombre" placeholder="Introduce tu nombre">
+                        <input type="text" size="15" name="nombre" value="Ruben" placeholder="Introduce tu nombre">
                     </h4><br>
                     <h4><strong>Apellidos</strong>(Como en documento oficial):
-                        <input type="text" size="15" name="apellidos" placeholder="Introduce tus Apellidos">
+                        <input type="text" size="15" name="apellidos" value="Brito" placeholder="Introduce tus Apellidos">
                     </h4><br>
                     <h4>Indicar número y letras de su documento oficial acreditativo.<strong>DNI,NIF o PASAPORTE</strong> (Poner el número completo y letra/s en mayúsculas, sin dejar espacios):
                         <br><strong>SOLO 1 SOLICITUD POR DOCUMENTO (p.e : 12345678X)</strong>
-                        <input type="text" maxlength="9" size="10" name="DNI" placeholder="Introduce tu DNI">
+                        <input type="text" maxlength="9" size="10" value ="12345678X" name="DNI" placeholder="Introduce tu DNI">
                     </h4><br>
                     <h4>Municipio donde reside actualmente. Si su municipio no está en este listado, rellene el campo de abajo.<br>
                         <strong>Municipio:</strong>
@@ -77,16 +77,16 @@
                     </h4><br>
                     <h4>
                         <strong>Dirección</strong>(Calle,Urbanización,Avenida,etc...):
-                        <input type="text" size="30" name="direccion" placeholder="Introduce tu dirección"><br><br>
+                        <input type="text" size="30" name="direccion" value="Mezque" placeholder="Introduce tu dirección"><br><br>
                         <br>
                         <strong>Email</strong>(Si no tiene correo electrónico,escriba en el recuadro el número 1 (Por favor, vigilen las MAYÚSCULAS y minúsculas)):
-                        <input type="text" size="20" name="email" placeholder="Introduce tu email">
+                        <input type="text" size="20" name="email" value="ruben@mail.com" placeholder="Introduce tu email">
                         <br><br>
                         <strong>Fax</strong>(Si no tiene fax,escriba en el recuadro el número 1):
                         <input type="text" maxlength="9" size="9" name="fax" placeholder="Introduce tu fax">
                         <br><br>
                         <strong>Teléfono</strong>(Indicar número de teléfono, móvil o fijo. (Poner el número completo SIN ESPACIOS)):
-                        <input type="text" maxlength="9" size="9" name="telefono" placeholder="Telefono"><br><br>
+                        <input type="text" maxlength="9" size="9" value="123456789" name="telefono" placeholder="Telefono"><br><br>
                     </h4>
                 </fieldset>
 

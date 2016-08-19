@@ -53,6 +53,7 @@ import org.jboss.weld.servlet.SessionHolder;
 public class RegisterCommand extends FrontCommand {
 
     boolean errorDeParametros = false;
+    String posibleError = "";
 
     @Override
     public void process() {
@@ -67,9 +68,6 @@ public class RegisterCommand extends FrontCommand {
              En el caso de haber un error el boolean se pone a true no insertando
              nada en la BD.
              */
-            
-            String posibleError = "";
-
             // ----------------------------------------------------------------
             // TODOS LAS COMPROBACIONES DEVUELVEN -- TRUE -- SI ESTÁN CORRECTAS.
             // ----------------------------------------------------------------
@@ -111,10 +109,6 @@ public class RegisterCommand extends FrontCommand {
             }
 
             //----- DNI
-            if (!comprobarSiEstaDNI(dni, fechaEntrada)) {
-                posibleError += "DNI : - Hemos encontrado una petición suya para el día y playa solicitada.";
-                posibleError += "Por favor escoja otro periodo.<br>";
-            }
             if (!comprobarFormaCorrecta(dni)) {
                 posibleError += "DNI : - El DNI introducido NO es valido.<br>";
             }
@@ -144,7 +138,7 @@ public class RegisterCommand extends FrontCommand {
             if (!comprobacionesEmail(email)) {
                 posibleError += "Email : - El correo electrónico no es válido.<br>";
             }
-             if (!comprobarQueNoEstaVacio(email)) {
+            if (!comprobarQueNoEstaVacio(email)) {
                 posibleError += "Email : - Introduzca un email por favor.<br>";
             }
 
@@ -202,32 +196,24 @@ public class RegisterCommand extends FrontCommand {
                 observaciones = "Sin observaciones";
             }
 
-            PlayadatospersonasFacade pdpF = InitialContext.doLookup("java:global/AcampadasPajara/AcampadasPajara-ejb/PlayadatospersonasFacade");
+            Playadatospersonas registroInsercionEnBD = new Playadatospersonas(null, playa,
+                    nombre, apellidos, dni, municipio, email,
+                    telefono, fechaEntrada, fechaSalida, Integer.parseInt(cantidadPersonas),
+                    tipoAcampada, Integer.parseInt(numeroCasetas), opcionRecogida);
+
+            registroInsercionEnBD.setFax(fax);
+            registroInsercionEnBD.setMatriculaCar(matriculaCaravana);
+            registroInsercionEnBD.setObservaciones(observaciones);
+
+            comprobarPosiblesInserciones(registroInsercionEnBD, fechaEntrada);
 
             if (!errorDeParametros) {
-                while (comprobarFechaSalidaMayorQueFechaEntrada(fechaEntrada, fechaSalida)) {
-                    Playadatospersonas registroInsercionEnBD = new Playadatospersonas(null, playa,
-                            nombre, apellidos, dni, municipio, email,
-                            telefono, fechaEntrada, fechaSalida, Integer.parseInt(cantidadPersonas),
-                            tipoAcampada, Integer.parseInt(numeroCasetas), opcionRecogida);
-                    registroInsercionEnBD.setFax(fax);
-                    registroInsercionEnBD.setMatriculaCar(matriculaCaravana);
-                    registroInsercionEnBD.setObservaciones(observaciones);
-
-                    fechaEntrada = sumarUnDiaAFechaEntrada(fechaEntrada);
-
-                    insertaEnBD(registroInsercionEnBD, pdpF);
-                }
-                pdfCommand test = new pdfCommand();
-                try {
-                    test.createPdf("c:/ProyectoAcampadaRuben/prueba.pdf");
-                } catch (DocumentException | MessagingException ex) {
-                    Logger.getLogger(RegisterCommand.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } else {
                 session.setAttribute("problemas", posibleError);
                 forward("/displayErrors.jsp");
             }
+
+            realizasInserciones(registroInsercionEnBD);
+
             forward("/reservaHecha.jsp");
         } catch (ServletException | IOException | NamingException | ParseException ex) {
             Logger.getLogger(RegisterCommand.class.getName()).log(Level.SEVERE, null, ex);
@@ -251,16 +237,16 @@ public class RegisterCommand extends FrontCommand {
         return true;
     }
 
-    private boolean comprobarSiEstaDNI(String dni, String fEntrada) throws NamingException {
+    private boolean comprobarSiEstaDNI(String dni) throws NamingException {
         PlayadatospersonasFacade pdpF = InitialContext.doLookup("java:global/AcampadasPajara/AcampadasPajara-ejb/PlayadatospersonasFacade");
         List<Playadatospersonas> playasYDatos = pdpF.findAll();
         for (Playadatospersonas playasYDato : playasYDatos) {
-            if ((dni.equals(playasYDato.getDni()) && (fEntrada.equals(playasYDato.getFechaEntrada())))) {
-                setErrorTrue();
-                return false;
+            if (dni.equals(playasYDato.getDni())) {
+                return true;
             }
         }
-        return true;
+        setErrorTrue();
+        return false;
     }
 
     private boolean comprobarFormaCorrecta(String dni) {
@@ -359,21 +345,10 @@ public class RegisterCommand extends FrontCommand {
         return fechasNoPosiblesReservar;
     }
 
-    private String sumarUnDiaAFechaEntrada(String fechaEntrada) throws ParseException {
-        String fechaASumarUnDia = fechaEntrada;  // Start date
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar c = Calendar.getInstance();
-        c.setTime(sdf.parse(fechaASumarUnDia));
-        c.add(Calendar.DATE, 1);  // number of days to add
-        fechaASumarUnDia = sdf.format(c.getTime());  // dt is now the new date
-        return fechaASumarUnDia;
-    }
-
     private boolean consultarFechaBD(String fechaATratar, String playa) throws NamingException {
         int plazasMaximasPermitidasEnPlaya = obtenerPlazasMaximasDePlaya(playa);
         PlayaplazasfechaocupadasFacade ppfoF = InitialContext.doLookup("java:global/AcampadasPajara/AcampadasPajara-ejb/PlayaplazasfechaocupadasFacade");
         List<Playaplazasfechaocupadas> playaFechaPlazas = ppfoF.findAll();
-
         // Buscamos Playa,Fecha y que ademas el numero de plazas < que el permitido,
         // AQUI NO INSERTAMOS SOLO CONSULTAMOS.
         for (Playaplazasfechaocupadas playaFechaPlaza : playaFechaPlazas) {
@@ -390,6 +365,16 @@ public class RegisterCommand extends FrontCommand {
         return true;
     }
 
+    private String sumarUnDiaAFechaEntrada(String fechaEntrada) throws ParseException {
+        String fechaASumarUnDia = fechaEntrada;  // Start date
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        c.setTime(sdf.parse(fechaASumarUnDia));
+        c.add(Calendar.DATE, 1);  // number of days to add
+        fechaASumarUnDia = sdf.format(c.getTime());  // dt is now the new date
+        return fechaASumarUnDia;
+    }
+
     private int obtenerPlazasMaximasDePlaya(String playa) throws NamingException {
         PlayaplazasmaximasasociadasFacade ppmF = InitialContext.doLookup("java:global/AcampadasPajara/AcampadasPajara-ejb/PlayaplazasmaximasasociadasFacade");
         List<Playaplazasmaximasasociadas> playasYPlazas = ppmF.findAll();
@@ -399,49 +384,6 @@ public class RegisterCommand extends FrontCommand {
             }
         }
         return 0;
-    }
-
-    private void insertaEnBD(Playadatospersonas registroInsercionEnBD, PlayadatospersonasFacade pdpF) throws NamingException {
-        /* 
-         Algoritmo que hace dos inserciones en dos tablas diferentes :
-         1ºPlayaYDatosPersonas : Hacemos todas las inserciones de todas las fechas en esta tabla.
-         2ºPlayaYPlazasFechasOcupadas : Si hay una fecha cogida pues incrementamos las plazas.
-         En este caso hay que tener un pequeño control de si existe o no esa entrada en la bd,
-         bien para incrementar o para generar la entrada pertinente.
-         
-         SE HARÁN LAS DOS INSERCIONES AL MISMO TIEMPO PARA EVITAR INCONSISTENCIAS.
-         */
-        int plazasMaximasPermitidasEnPlaya = obtenerPlazasMaximasDePlaya(registroInsercionEnBD.getPlaya());
-        boolean editado = false;
-        PlayaplazasfechaocupadasFacade ppfoF = InitialContext.doLookup("java:global/AcampadasPajara/AcampadasPajara-ejb/PlayaplazasfechaocupadasFacade");
-        List<Playaplazasfechaocupadas> playaFechaPlazas = ppfoF.findAll();
-
-        //||||||||||
-        //Algoritmo comprobacion para la 2º tabla
-        //---------------------------------------------------------------------------------
-        for (Playaplazasfechaocupadas playaFechaPlaza : playaFechaPlazas) {
-            if (playaFechaPlaza.getPlaya().equals(registroInsercionEnBD.getPlaya())
-                    && playaFechaPlaza.getFecha().equals(registroInsercionEnBD.getFechaEntrada())) {
-                if (playaFechaPlaza.getPlazas() < plazasMaximasPermitidasEnPlaya) {
-                    Playaplazasfechaocupadas registroEditado = new Playaplazasfechaocupadas(null, playaFechaPlaza.getPlaya(), playaFechaPlaza.getFecha(), playaFechaPlaza.getPlazas() + 1);
-                    //Edicion de registro en la 2º Tabla (Insercion)
-                    ppfoF.edit(registroEditado);
-                    editado = true;
-                    //Insercion en la 1º Tabla
-                    pdpF.create(registroInsercionEnBD);
-                    break;
-                }
-            }
-        }
-        if (!editado) {
-            //Insercion en la 2º Tabla
-            pdpF.create(registroInsercionEnBD);
-
-            //Insercion en la 1º Tabla
-            Playaplazasfechaocupadas registroEditado = new Playaplazasfechaocupadas(null, registroInsercionEnBD.getPlaya(), registroInsercionEnBD.getFechaEntrada(), 1);
-            ppfoF.create(registroEditado);
-        }
-        //---------------------------------------------------------------------------------
     }
 
     private void setErrorTrue() {
@@ -463,4 +405,90 @@ public class RegisterCommand extends FrontCommand {
         return true;
     }
 
+    private void comprobarPosiblesInserciones(Playadatospersonas registroInsercionEnBD, String fechaEntrada) throws ParseException, NamingException {
+        posibilidadInsertaEnPlayaDatosPersonas(registroInsercionEnBD, fechaEntrada);
+        posibilidadInsertaEnPlazasFechasOcupadas(registroInsercionEnBD, fechaEntrada);
+    }
+
+    private void realizasInserciones(Playadatospersonas registroInsercionEnBD) throws ParseException, NamingException {
+        insertaEnPlayaDatosPersonas(registroInsercionEnBD);
+        insertaEnPlayaPlazasFechasOcupadas(new Playaplazasfechaocupadas(null, registroInsercionEnBD.getPlaya(), registroInsercionEnBD.getFechaEntrada(), 1));
+    }
+
+    private void posibilidadInsertaEnPlayaDatosPersonas(Playadatospersonas registroInsercionEnBD, String fechaEntrada)
+            throws ParseException, NamingException {
+        if (comprobarSiEstaDNI(registroInsercionEnBD.getDni())) {
+            boolean condicionFecha = fechaEnRangoFechas(fechaEntrada, registroInsercionEnBD.getFechaEntrada(), registroInsercionEnBD.getFechaSalida());
+            if (condicionFecha) {
+                posibleError += "Lo sentimos pero parece que usted tiene reservado este periodo de fechas."
+                        + "Por favor seleccione otro.<br>";
+                setErrorTrue();
+            }
+        }
+    }
+
+    private void insertaEnPlayaDatosPersonas(Playadatospersonas registroInsercionEnBD)
+            throws ParseException, NamingException {
+        PlayadatospersonasFacade pdpF = InitialContext.doLookup("java:global/AcampadasPajara/AcampadasPajara-ejb/PlayadatospersonasFacade");
+        pdpF.create(registroInsercionEnBD);
+    }
+
+    private void posibilidadInsertaEnPlazasFechasOcupadas(Playadatospersonas registroInsercionEnBD, String fechaEntrada)
+            throws ParseException, NamingException {
+        PlayaplazasfechaocupadasFacade ppfoF = InitialContext.doLookup("java:global/AcampadasPajara/AcampadasPajara-ejb/PlayaplazasfechaocupadasFacade");
+        List<Playaplazasfechaocupadas> ppfo = ppfoF.findAll();
+
+        String fecha = registroInsercionEnBD.getFechaEntrada();
+        boolean encontrado = false;
+
+        while (!fecha.equals(registroInsercionEnBD.getFechaSalida())) {
+            encontrado = false;
+            for (Playaplazasfechaocupadas playasPlazasFO : ppfo) {
+                if (fecha.equals(playasPlazasFO.getFecha())
+                        && registroInsercionEnBD.getPlaya().equals(playasPlazasFO.getPlaya())) {
+                    Playaplazasfechaocupadas editado = playasPlazasFO;
+                    editado.setPlazas(editado.getPlazas() + 1);
+                    //Encontramos y editamos sobre la marcha.
+                    ppfoF.edit(editado);
+                    encontrado = true;
+                    break;
+                }
+
+            }
+            if (!encontrado) {
+                // Lo creamos.
+                insertaEnPlayaPlazasFechasOcupadas(new Playaplazasfechaocupadas(null, registroInsercionEnBD.getPlaya(), fecha, 1));
+            }
+            fecha = sumarUnDiaAFechaEntrada(fecha);
+        }
+    }
+
+    private void insertaEnPlayaPlazasFechasOcupadas(Playaplazasfechaocupadas playaplazasfechaocupadas)
+            throws ParseException, NamingException {
+        PlayaplazasfechaocupadasFacade ppfoF = InitialContext.doLookup("java:global/AcampadasPajara/AcampadasPajara-ejb/PlayaplazasfechaocupadasFacade");
+        ppfoF.create(playaplazasfechaocupadas);
+    }
+
+    private boolean fechaEnRangoFechas(String fechaAMirar, String fechaLimInf, String fechaLimSup) throws ParseException {
+        while (!fechaLimInf.equals(fechaLimSup)) {
+            if (fechaLimInf.equals(fechaAMirar)) {
+                return true;
+            }
+            fechaLimInf = sumarUnDiaAFechaEntrada(fechaLimInf);
+        }
+        return false;
+    }
+
+    /*
+     private void crearPDF() {
+     /*
+     pdfCommand test = new pdfCommand();
+        
+     try {
+     test.createPdf("c:/ProyectoAcampadaRuben/prueba.pdf");
+     } catch (DocumentException | MessagingException ex) {
+     Logger.getLogger(RegisterCommand.class.getName()).log(Level.SEVERE, null, ex);
+     }
+         
+     }*/
 }
