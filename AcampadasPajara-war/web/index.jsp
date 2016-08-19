@@ -1,9 +1,3 @@
-<%-- 
-    Document   : index
-    Created on : 07-ago-2016, 11:39:26
-    Author     : Jusio
---%>
-
 <%@page import="entities.Playaplazasmaximasasociadas"%>
 <%@page import="entities.Municipios"%>
 <%@page import="java.util.List"%>
@@ -89,10 +83,10 @@
                         <input type="text" size="20" name="email" placeholder="Introduce tu email">
                         <br><br>
                         <strong>Fax</strong>(Si no tiene fax,escriba en el recuadro el número 1):
-                        <input type="text" size="9" name="fax" placeholder="Introduce tu fax">
+                        <input type="text" maxlength="9" size="9" name="fax" placeholder="Introduce tu fax">
                         <br><br>
                         <strong>Teléfono</strong>(Indicar número de teléfono, móvil o fijo. (Poner el número completo SIN ESPACIOS)):
-                        <input type="text" size="9" name="telefono" placeholder="Introduce tu nº de teléfono"><br><br>
+                        <input type="text" maxlength="9" size="9" name="telefono" placeholder="Telefono"><br><br>
                     </h4>
                 </fieldset>
 
@@ -150,20 +144,11 @@
                         </select>
                         <br><br>
 
-                        <!-- 
-                        <strong>Caravanas</strong> (Indique si solo acampa con casetas o  si acampa con una caravana(en el caso de acampar con una caravana indique en el recuadro de la derecha la matrícula)):
-                        <select name="caravana" class="selectpicker">
-                            <option>Casetas</option>
-                            <option>Caravanas</option>
-                        </select>
-                        <br><br>
-                        -->
-
                         <strong>Recoger</strong>(Indique el punto de recogida de su autorización. No se enviarán autorizaciones a la Tenencia de Alcaldía de La Lajita):<br>
+                        <input type="radio" name="optradio" value="Por correo electronico" checked> Por correo electrónico<br>
                         <input type="radio" name="optradio" value="Ayuntamiento de Pajara (Plaza Nuestra Señora de Regla)" > Ayuntamiento de Pájara (Plaza Nuestra Señora de Regla)<br>
                         <input type="radio" name="optradio" value="Usos Multiples de Morro Jable (Edificio Policia Local)"> Usos Múltiples de Morro Jable (Edificio Policia Local)<br>
                         <input type="radio" name="optradio" value="Tenencia de Alcaldia de Costa Calma"> Tenencia de Alcaldía de Costa Calma<br>
-                        <input type="radio" name="optradio" value="Por correo electronico"> Por correo electrónico<br>
                         <input type="radio" name="optradio" value="Por Fax"> Por Fax
                         <br>
                         <br>

@@ -43,7 +43,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Playadatospersonas.findByNumPersonas", query = "SELECT p FROM Playadatospersonas p WHERE p.numPersonas = :numPersonas"),
     @NamedQuery(name = "Playadatospersonas.findByTipoAcamp", query = "SELECT p FROM Playadatospersonas p WHERE p.tipoAcamp = :tipoAcamp"),
     @NamedQuery(name = "Playadatospersonas.findByNumCasetas", query = "SELECT p FROM Playadatospersonas p WHERE p.numCasetas = :numCasetas"),
-    @NamedQuery(name = "Playadatospersonas.findByCaraCase", query = "SELECT p FROM Playadatospersonas p WHERE p.caraCase = :caraCase"),
     @NamedQuery(name = "Playadatospersonas.findByMatriculaCar", query = "SELECT p FROM Playadatospersonas p WHERE p.matriculaCar = :matriculaCar"),
     @NamedQuery(name = "Playadatospersonas.findByRecoger", query = "SELECT p FROM Playadatospersonas p WHERE p.recoger = :recoger")})
 public class Playadatospersonas implements Serializable {
@@ -116,11 +115,6 @@ public class Playadatospersonas implements Serializable {
     @NotNull
     @Column(name = "NUM_CASETAS")
     private int numCasetas;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 144)
-    @Column(name = "CARA_CASE")
-    private String caraCase;
     @Size(max = 144)
     @Column(name = "MATRICULA_CAR")
     private String matriculaCar;
@@ -141,7 +135,7 @@ public class Playadatospersonas implements Serializable {
         this.pdpId = pdpId;
     }
 
-    public Playadatospersonas(Integer pdpId, String playa, String nombrepersona, String apellido, String dni, String municipio, String email, String telefono, String fechaEntrada, String fechaSalida, int numPersonas, String tipoAcamp, int numCasetas, String caraCase, String recoger) {
+    public Playadatospersonas(Integer pdpId, String playa, String nombrepersona, String apellido, String dni, String municipio, String email, String telefono, String fechaEntrada, String fechaSalida, int numPersonas, String tipoAcamp, int numCasetas, String recoger) {
         this.pdpId = pdpId;
         this.playa = playa;
         this.nombrepersona = nombrepersona;
@@ -155,7 +149,6 @@ public class Playadatospersonas implements Serializable {
         this.numPersonas = numPersonas;
         this.tipoAcamp = tipoAcamp;
         this.numCasetas = numCasetas;
-        this.caraCase = caraCase;
         this.recoger = recoger;
     }
 
@@ -271,14 +264,6 @@ public class Playadatospersonas implements Serializable {
         this.numCasetas = numCasetas;
     }
 
-    public String getCaraCase() {
-        return caraCase;
-    }
-
-    public void setCaraCase(String caraCase) {
-        this.caraCase = caraCase;
-    }
-
     public String getMatriculaCar() {
         return matriculaCar;
     }
@@ -325,7 +310,7 @@ public class Playadatospersonas implements Serializable {
 
     @Override
     public String toString() {
-        return "controller.Playadatospersonas[ pdpId=" + pdpId + " ]";
+        return "entities.Playadatospersonas[ pdpId=" + pdpId + " ]";
     }
     
 }

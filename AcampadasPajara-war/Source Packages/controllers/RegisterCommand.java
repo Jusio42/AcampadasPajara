@@ -67,13 +67,34 @@ public class RegisterCommand extends FrontCommand {
              En el caso de haber un error el boolean se pone a true no insertando
              nada en la BD.
              */
+            
             String posibleError = "";
 
             // ----------------------------------------------------------------
             // TODOS LAS COMPROBACIONES DEVUELVEN -- TRUE -- SI ESTÁN CORRECTAS.
             // ----------------------------------------------------------------
-            //----- NOMBRE
+            //Obtención de los datos todo los datos 
             String nombre = request.getParameter("nombre");
+            String apellidos = request.getParameter("apellidos");
+            String dni = request.getParameter("DNI");
+            String municipio = request.getParameter("municipioSelect");
+            String nomunicipio = request.getParameter("noMunicipio");
+            String direccion = request.getParameter("direccion");
+            String email = request.getParameter("email");
+            String fax = request.getParameter("fax");
+            String telefono = request.getParameter("telefono");
+            String playa = request.getParameter("playaSelect");
+            String fechaEntrada = request.getParameter("fechaentrada");
+            String fechaSalida = request.getParameter("fechasalida");
+            String cantidadPersonas = request.getParameter("personasCantidad");
+            String tipoAcampada = request.getParameter("tipoAcampada");
+            String numeroCasetas = request.getParameter("numeroCasetas");
+            String matriculaCaravana = request.getParameter("matriculaCaravana");
+            String opcionRecogida = request.getParameter("optradio");
+            String observaciones = request.getParameter("observaciones");
+            //-------------------------------------------------------------------
+
+            //----- NOMBRE
             if (!comprobarQueNoEstaVacio(nombre)) {
                 posibleError += "- No ha introducido ningún nombre en el campo nombre.<br>";
             }
@@ -82,7 +103,6 @@ public class RegisterCommand extends FrontCommand {
             }
 
             //----- APELLIDOS
-            String apellidos = request.getParameter("apellidos");
             if (!comprobarQueNoEstaVacio(apellidos)) {
                 posibleError += "- No ha introducido ningún apellido en el campo apellido.<br>";
             }
@@ -91,14 +111,18 @@ public class RegisterCommand extends FrontCommand {
             }
 
             //----- DNI
-            String dni = request.getParameter("DNI");
-            if (!comprobarSiEstaDNI(dni) || !comprobarFormaCorrecta(dni)) {
-                posibleError += "- Hemos encontrado una petición suya hecha recientemente o no ha introducido de la forma correcta el DNI, por favor revíselo.<br>";
+            if (!comprobarSiEstaDNI(dni, fechaEntrada)) {
+                posibleError += "- Hemos encontrado una petición suya para el día y playa solicitada.";
+                posibleError += "Por favor escoja otro periodo.<br>";
+            }
+            if (!comprobarFormaCorrecta(dni)) {
+                posibleError += "- El DNI introducido NO es valido.<br>";
+            }
+            if (!comprobarQueNoEstaVacio(dni)) {
+                posibleError += "- Introduzca un DNI por favor.<br>";
             }
 
             //----- MUNICIPIOS
-            String municipio = request.getParameter("municipioSelect");
-            String nomunicipio = request.getParameter("noMunicipio");
             if (municipio.length() == 0) {
                 if (nomunicipio.length() == 0) {
                     posibleError += "Tiene que introducir un municipio.<br>";
@@ -112,36 +136,38 @@ public class RegisterCommand extends FrontCommand {
             }
 
             //----- DIRECCION
-            String direccion = request.getParameter("direccion");
             if (!comprobarQueNoEstaVacio(direccion)) {
                 posibleError += "La dirección no puede quedar vacía.<br>";
             }
 
             //----- EMAIL
-            String email = request.getParameter("email");
             if (!comprobacionesEmail(email)) {
                 posibleError += "El correo electrónico no es válido.<br>";
             }
+             if (!comprobarQueNoEstaVacio(email)) {
+                posibleError += "- Introduzca un email por favor.<br>";
+            }
 
             //----- FAX
-            String fax = request.getParameter("fax");
             if (!comprobarQueNoHayLetras(fax)) {
                 posibleError += "El Fax introducido no es válido.<br>";
             }
-            fax = comprobarQueNoEsNulo(fax);
+            if (!comprobarQueNoEsNulo(fax)) {
+                fax = "Sin fax";
+            }
+            if (!comprobarCorrectoNumero(fax)) {
+                posibleError += "El Fax introducido no es válido.<br>";
+            }
 
             //----- TELEFONO
-            String telefono = request.getParameter("telefono");
             if (!comprobarQueNoHayLetras(telefono)) {
                 posibleError += "El Telefono introducido no es válido.<br>";
             }
-
-            //----- PLAYA
-            String playa = request.getParameter("playaSelect");
+            if (!comprobarCorrectoNumero(telefono)) {
+                posibleError += "El telefono introducido no es válido.<br>";
+            }
 
             //----- FECHAS Y PLAYA
-            String fechaEntrada = request.getParameter("fechaentrada");
-            String fechaSalida = request.getParameter("fechasalida");
             String posiblesFechasIncompatibles = "";
 
             if (fechaEntrada.length() == 0 || fechaSalida.length() == 0) {
@@ -159,16 +185,10 @@ public class RegisterCommand extends FrontCommand {
                 }
             }
 
-            //----- PERSONAS
-            String cantidadPersonas = request.getParameter("personasCantidad");
-
-            //----- OPCIONES DE ACAMPADA
-            String tipoAcampada = request.getParameter("tipoAcampada");
-            String numeroCasetas = request.getParameter("numeroCasetas");
-
             //----- MATRICULA CARAVANA
-            String matriculaCaravana = request.getParameter("matriculaCaravana");
-            matriculaCaravana = comprobarQueNoEsNulo(matriculaCaravana);
+            if (!comprobarQueNoEsNulo(matriculaCaravana)) {
+                matriculaCaravana = "Sin caravana";
+            }
 
             if (!comprobarCaravanaParaIntroducirMatricula(tipoAcampada, matriculaCaravana)) {
                 posibleError += "Por favor introduza la matrícula de su caravana.<br>";
@@ -177,22 +197,23 @@ public class RegisterCommand extends FrontCommand {
                 posibleError += "No puede solicitar mas de una caseta si va con caravana.<br>";
             }
 
-            //----- RECOGER DOCUMENTO
-            String opcionRecogida = request.getParameter("optradio");
-
             //----- OBSERVACIONES
-            String observaciones = request.getParameter("observaciones");
-            observaciones = comprobarQueNoEsNulo(observaciones);
+            if (!comprobarQueNoEsNulo(observaciones)) {
+                observaciones = "Sin observaciones";
+            }
 
             PlayadatospersonasFacade pdpF = InitialContext.doLookup("java:global/AcampadasPajara/AcampadasPajara-ejb/PlayadatospersonasFacade");
 
             if (!errorDeParametros) {
                 while (comprobarFechaSalidaMayorQueFechaEntrada(fechaEntrada, fechaSalida)) {
-                    Playadatospersonas registroInsercionEnBD = new Playadatospersonas(null, playa, nombre, apellidos, dni,
-                            municipio, email, telefono, fechaEntrada, fechaSalida,
-                            Integer.parseInt(cantidadPersonas), tipoAcampada, Integer.parseInt(numeroCasetas), matriculaCaravana, opcionRecogida);
+                    Playadatospersonas registroInsercionEnBD = new Playadatospersonas(null, playa,
+                            nombre, apellidos, dni, municipio, email,
+                            telefono, fechaEntrada, fechaSalida, Integer.parseInt(cantidadPersonas),
+                            tipoAcampada, Integer.parseInt(numeroCasetas), opcionRecogida);
+                    registroInsercionEnBD.setFax(fax);
+                    registroInsercionEnBD.setMatriculaCar(matriculaCaravana);
+                    registroInsercionEnBD.setObservaciones(observaciones);
 
-                    // registroInsercionEnBD.setCaraCase(caravanaOCaseta); <---------- ANALIZAR ESTO
                     fechaEntrada = sumarUnDiaAFechaEntrada(fechaEntrada);
 
                     insertaEnBD(registroInsercionEnBD, pdpF);
@@ -207,9 +228,7 @@ public class RegisterCommand extends FrontCommand {
                 session.setAttribute("problemas", posibleError);
                 forward("/displayErrors.jsp");
             }
-
-            forward("/unknown.jsp");
-
+            forward("/reservaHecha.jsp");
         } catch (ServletException | IOException | NamingException | ParseException ex) {
             Logger.getLogger(RegisterCommand.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -232,11 +251,11 @@ public class RegisterCommand extends FrontCommand {
         return true;
     }
 
-    private boolean comprobarSiEstaDNI(String dni) throws NamingException {
+    private boolean comprobarSiEstaDNI(String dni, String fEntrada) throws NamingException {
         PlayadatospersonasFacade pdpF = InitialContext.doLookup("java:global/AcampadasPajara/AcampadasPajara-ejb/PlayadatospersonasFacade");
         List<Playadatospersonas> playasYDatos = pdpF.findAll();
         for (Playadatospersonas playasYDato : playasYDatos) {
-            if (dni.equals(playasYDato.getDni())) {
+            if ((dni.equals(playasYDato.getDni()) && (fEntrada.equals(playasYDato.getFechaEntrada())))) {
                 setErrorTrue();
                 return false;
             }
@@ -260,7 +279,7 @@ public class RegisterCommand extends FrontCommand {
         MunicipiosFacade mF = InitialContext.doLookup("java:global/AcampadasPajara/AcampadasPajara-ejb/MunicipiosFacade");
         List<Municipios> municipios = mF.findAll();
         for (Municipios municipio : municipios) {
-            if (municipio.getMunicipio() == nomunicipio) {
+            if (municipio.getMunicipio().equals(nomunicipio)) {
                 setErrorTrue();
                 return false;
             }
@@ -295,16 +314,15 @@ public class RegisterCommand extends FrontCommand {
     }
 
     private boolean comprobarCaravanaParaIntroducirMatricula(String caravanaOCaseta, String matriculaCaravana) {
-        if (caravanaOCaseta.equals("Caravana") || caravanaOCaseta.equals("Ambas")) {
+        if (caravanaOCaseta.equals("Caseta")) {
+            return true;
+        } else {
             if (matriculaCaravana.length() > 5) {
                 return true;
-            } else {
-                setErrorTrue();
-                return false;
             }
         }
-        setErrorTrue();
         return false;
+
     }
 
     private boolean comprobarCaravanaSoloUnaCaseta(String caravanaOCaseta, String numeroCasetas) {
@@ -312,6 +330,7 @@ public class RegisterCommand extends FrontCommand {
             return true;
         } else {
             if (Integer.parseInt(numeroCasetas) > 1) {
+                setErrorTrue();
                 return false;
             }
         }
@@ -429,11 +448,19 @@ public class RegisterCommand extends FrontCommand {
         errorDeParametros = true;
     }
 
-    private String comprobarQueNoEsNulo(String posibilidadNulo) {
+    private boolean comprobarQueNoEsNulo(String posibilidadNulo) {
         if (posibilidadNulo.length() == 0) {
-            return " ";
+            return false;
         }
-        return posibilidadNulo;
+        return true;
+    }
+
+    private boolean comprobarCorrectoNumero(String number) {
+        if (number.length() < 9) {
+            setErrorTrue();
+            return false;
+        }
+        return true;
     }
 
 }
