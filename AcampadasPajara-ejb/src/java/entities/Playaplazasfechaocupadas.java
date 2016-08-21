@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author W7
+ * @author Rubn_
  */
 @Entity
 @Table(name = "PLAYAPLAZASFECHAOCUPADAS")
@@ -33,6 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Playaplazasfechaocupadas.findByFecha", query = "SELECT p FROM Playaplazasfechaocupadas p WHERE p.fecha = :fecha"),
     @NamedQuery(name = "Playaplazasfechaocupadas.findByPlazas", query = "SELECT p FROM Playaplazasfechaocupadas p WHERE p.plazas = :plazas")})
 public class Playaplazasfechaocupadas implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

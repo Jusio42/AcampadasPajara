@@ -1,6 +1,5 @@
 package controllers;
 
-import com.itextpdf.text.DocumentException;
 import controller.MunicipiosFacade;
 import controller.MunicipiosProvisionalesFacade;
 import controller.PlayadatospersonasFacade;
@@ -14,6 +13,8 @@ import entities.Playaplazasmaximasasociadas;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -121,11 +122,9 @@ public class RegisterCommand extends FrontCommand {
                 if (nomunicipio.length() == 0) {
                     posibleError += "Municipio : - Tiene que introducir un municipio.<br>";
                     setErrorTrue();
-                } else {
-                    if (comprobarQueMunicipioDeVerdadNoEsta(nomunicipio)) {
-                        posibleError += "Municipio : - El municipio introducido por usted si existe,seleccionelo del listado por favor.<br>";
-                        setErrorTrue();
-                    }
+                } else if (comprobarQueMunicipioDeVerdadNoEsta(nomunicipio)) {
+                    posibleError += "Municipio : - El municipio introducido por usted si existe,seleccionelo del listado por favor.<br>";
+                    setErrorTrue();
                 }
             }
 
@@ -143,16 +142,17 @@ public class RegisterCommand extends FrontCommand {
             }
 
             //----- FAX
-            if (!comprobarQueNoHayLetras(fax)) {
-                posibleError += "Fax : - El Fax introducido no es válido.<br>";
-            }
             if (!comprobarQueNoEsNulo(fax)) {
                 fax = "Sin fax";
+            }else{
+                if (!comprobarQueNoHayLetras(fax)) {
+                    posibleError += "Fax : - El Fax introducido no es válido.<br>";
+                }
+                if (!comprobarSiHayNumero(fax)) {
+                    posibleError += "Fax : - El Fax introducido no es válido.<br>";
+                }
             }
-            if (!comprobarCorrectoNumero(fax)) {
-                posibleError += "Fax : - El Fax introducido no es válido.<br>";
-            }
-
+            
             //----- TELEFONO
             if (!comprobarQueNoHayLetras(telefono)) {
                 posibleError += "Telefono : - El Telefono introducido no es válido.<br>";
@@ -166,16 +166,14 @@ public class RegisterCommand extends FrontCommand {
 
             if (fechaEntrada.length() == 0 || fechaSalida.length() == 0) {
                 posibleError += "Periodo : - Especifica tanto la fecha de entrada como de salida por favor.<br>";
+            } else if (!comprobarFechaSalidaMayorQueFechaEntrada(fechaEntrada, fechaSalida)) {
+                setErrorTrue();
+                posibleError += "Periodo : - La fecha de salida es anterior a la de entrada, revisalo por favor.<br>";
             } else {
-                if (!comprobarFechaSalidaMayorQueFechaEntrada(fechaEntrada, fechaSalida)) {
-                    setErrorTrue();
-                    posibleError += "Periodo : - La fecha de salida es anterior a la de entrada, revisalo por favor.<br>";
-                } else {
-                    posiblesFechasIncompatibles = comprobarSiHayPlazasEnUnRangoDeFecha(playa, fechaEntrada, fechaSalida);
-                    if (posiblesFechasIncompatibles.length() != 0) {
-                        posibleError += "Periodo : - El rango especificado no es válido debido a que hay fechas intermedias "
-                                + "en que la playa seleccionada no dispone de plazas.<br>" + posiblesFechasIncompatibles;
-                    }
+                posiblesFechasIncompatibles = comprobarSiHayPlazasEnUnRangoDeFecha(playa, fechaEntrada, fechaSalida);
+                if (posiblesFechasIncompatibles.length() != 0) {
+                    posibleError += "Periodo : - El rango especificado no es válido debido a que hay fechas intermedias "
+                            + "en que la playa seleccionada no dispone de plazas.<br>" + posiblesFechasIncompatibles;
                 }
             }
 
@@ -205,15 +203,15 @@ public class RegisterCommand extends FrontCommand {
             registroInsercionEnBD.setMatriculaCar(matriculaCaravana);
             registroInsercionEnBD.setObservaciones(observaciones);
 
-            comprobarPosiblesInserciones(registroInsercionEnBD, fechaEntrada);
+            posibilidadInsertaEnPlayaDatosPersonas(registroInsercionEnBD);
 
-            if (!errorDeParametros) {
+            if (errorDeParametros) {
                 session.setAttribute("problemas", posibleError);
                 forward("/displayErrors.jsp");
             }
-
-            realizasInserciones(registroInsercionEnBD);
-
+            
+            insertaEnPlayaDatosPersonas(registroInsercionEnBD);
+            insertaEnPlayaPlazasFechasOcupadas(registroInsercionEnBD);
             forward("/reservaHecha.jsp");
         } catch (ServletException | IOException | NamingException | ParseException ex) {
             Logger.getLogger(RegisterCommand.class.getName()).log(Level.SEVERE, null, ex);
@@ -235,18 +233,6 @@ public class RegisterCommand extends FrontCommand {
             return false;
         }
         return true;
-    }
-
-    private boolean comprobarSiEstaDNI(String dni) throws NamingException {
-        PlayadatospersonasFacade pdpF = InitialContext.doLookup("java:global/AcampadasPajara/AcampadasPajara-ejb/PlayadatospersonasFacade");
-        List<Playadatospersonas> playasYDatos = pdpF.findAll();
-        for (Playadatospersonas playasYDato : playasYDatos) {
-            if (dni.equals(playasYDato.getDni())) {
-                return true;
-            }
-        }
-        setErrorTrue();
-        return false;
     }
 
     private boolean comprobarFormaCorrecta(String dni) {
@@ -302,10 +288,8 @@ public class RegisterCommand extends FrontCommand {
     private boolean comprobarCaravanaParaIntroducirMatricula(String caravanaOCaseta, String matriculaCaravana) {
         if (caravanaOCaseta.equals("Caseta")) {
             return true;
-        } else {
-            if (matriculaCaravana.length() > 5) {
-                return true;
-            }
+        } else if (matriculaCaravana.length() > 5) {
+            return true;
         }
         return false;
 
@@ -314,11 +298,9 @@ public class RegisterCommand extends FrontCommand {
     private boolean comprobarCaravanaSoloUnaCaseta(String caravanaOCaseta, String numeroCasetas) {
         if (caravanaOCaseta.equals("Caseta")) {
             return true;
-        } else {
-            if (Integer.parseInt(numeroCasetas) > 1) {
-                setErrorTrue();
-                return false;
-            }
+        } else if (Integer.parseInt(numeroCasetas) > 1) {
+            setErrorTrue();
+            return false;
         }
         return true;
     }
@@ -405,24 +387,28 @@ public class RegisterCommand extends FrontCommand {
         return true;
     }
 
-    private void comprobarPosiblesInserciones(Playadatospersonas registroInsercionEnBD, String fechaEntrada) throws ParseException, NamingException {
-        posibilidadInsertaEnPlayaDatosPersonas(registroInsercionEnBD, fechaEntrada);
-        posibilidadInsertaEnPlazasFechasOcupadas(registroInsercionEnBD, fechaEntrada);
+    private boolean comprobarSiEstaDNI(String dni) throws NamingException {
+        PlayadatospersonasFacade pdpF = InitialContext.doLookup("java:global/AcampadasPajara/AcampadasPajara-ejb/PlayadatospersonasFacade");
+        List<Playadatospersonas> playasYDatos = pdpF.findAll();
+        for (Playadatospersonas playasYDato : playasYDatos) {
+            if (dni.equals(playasYDato.getDni())) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    private void realizasInserciones(Playadatospersonas registroInsercionEnBD) throws ParseException, NamingException {
-        insertaEnPlayaDatosPersonas(registroInsercionEnBD);
-        insertaEnPlayaPlazasFechasOcupadas(new Playaplazasfechaocupadas(null, registroInsercionEnBD.getPlaya(), registroInsercionEnBD.getFechaEntrada(), 1));
-    }
-
-    private void posibilidadInsertaEnPlayaDatosPersonas(Playadatospersonas registroInsercionEnBD, String fechaEntrada)
+    private void posibilidadInsertaEnPlayaDatosPersonas(Playadatospersonas registroInsercionEnBD)
             throws ParseException, NamingException {
+
         if (comprobarSiEstaDNI(registroInsercionEnBD.getDni())) {
-            boolean condicionFecha = fechaEnRangoFechas(fechaEntrada, registroInsercionEnBD.getFechaEntrada(), registroInsercionEnBD.getFechaSalida());
-            if (condicionFecha) {
-                posibleError += "Lo sentimos pero parece que usted tiene reservado este periodo de fechas."
-                        + "Por favor seleccione otro.<br>";
-                setErrorTrue();
+            List<Playadatospersonas> ocurrenciasDeUnaPersona = extraeTodasLasOcurrenciasDeUnaPersonaEnPlayaDatosPersonas(registroInsercionEnBD);
+            for (Playadatospersonas registroBaseDatos : ocurrenciasDeUnaPersona) {
+                if (fechaEnRangoFechas(registroInsercionEnBD.getFechaEntrada(), registroBaseDatos.getFechaEntrada(), registroBaseDatos.getFechaSalida())) {
+                    posibleError += "Lo siento hemos detectado que usted ya tiene una plaza asignada en el periodo [" + registroBaseDatos.getFechaEntrada() + ","
+                            + registroBaseDatos.getFechaSalida() + "] en la playa " + registroBaseDatos.getPlaya();
+                    setErrorTrue();
+                }
             }
         }
     }
@@ -433,43 +419,28 @@ public class RegisterCommand extends FrontCommand {
         pdpF.create(registroInsercionEnBD);
     }
 
-    private void posibilidadInsertaEnPlazasFechasOcupadas(Playadatospersonas registroInsercionEnBD, String fechaEntrada)
+    private void insertaEnPlayaPlazasFechasOcupadas(Playadatospersonas registroExtraerFechas)
             throws ParseException, NamingException {
         PlayaplazasfechaocupadasFacade ppfoF = InitialContext.doLookup("java:global/AcampadasPajara/AcampadasPajara-ejb/PlayaplazasfechaocupadasFacade");
-        List<Playaplazasfechaocupadas> ppfo = ppfoF.findAll();
-
-        String fecha = registroInsercionEnBD.getFechaEntrada();
-        boolean encontrado = false;
-
-        while (!fecha.equals(registroInsercionEnBD.getFechaSalida())) {
-            encontrado = false;
-            for (Playaplazasfechaocupadas playasPlazasFO : ppfo) {
-                if (fecha.equals(playasPlazasFO.getFecha())
-                        && registroInsercionEnBD.getPlaya().equals(playasPlazasFO.getPlaya())) {
-                    Playaplazasfechaocupadas editado = playasPlazasFO;
-                    editado.setPlazas(editado.getPlazas() + 1);
-                    //Encontramos y editamos sobre la marcha.
-                    ppfoF.edit(editado);
-                    encontrado = true;
-                    break;
-                }
-
-            }
-            if (!encontrado) {
-                // Lo creamos.
-                insertaEnPlayaPlazasFechasOcupadas(new Playaplazasfechaocupadas(null, registroInsercionEnBD.getPlaya(), fecha, 1));
+        String fecha = registroExtraerFechas.getFechaEntrada();
+        // Sumamos 
+        registroExtraerFechas.setFechaSalida(sumarUnDiaAFechaEntrada(registroExtraerFechas.getFechaSalida()));
+        while (!fecha.equals(registroExtraerFechas.getFechaSalida())) {
+            Playaplazasfechaocupadas registro = compruebaSiExisteEnPlayaPlazasFechaOcupadas(registroExtraerFechas.getPlaya(), fecha);
+            if (registro.getPlazas() == 0) {
+                registro.setPlazas(1);
+                ppfoF.create(registro);
+                fecha = sumarUnDiaAFechaEntrada(fecha);
+                continue;
             }
             fecha = sumarUnDiaAFechaEntrada(fecha);
+            registro.setPlazas(registro.getPlazas() + 1);
+            ppfoF.edit(registro);
         }
     }
 
-    private void insertaEnPlayaPlazasFechasOcupadas(Playaplazasfechaocupadas playaplazasfechaocupadas)
-            throws ParseException, NamingException {
-        PlayaplazasfechaocupadasFacade ppfoF = InitialContext.doLookup("java:global/AcampadasPajara/AcampadasPajara-ejb/PlayaplazasfechaocupadasFacade");
-        ppfoF.create(playaplazasfechaocupadas);
-    }
-
     private boolean fechaEnRangoFechas(String fechaAMirar, String fechaLimInf, String fechaLimSup) throws ParseException {
+        fechaLimSup = sumarUnDiaAFechaEntrada(fechaLimSup);
         while (!fechaLimInf.equals(fechaLimSup)) {
             if (fechaLimInf.equals(fechaAMirar)) {
                 return true;
@@ -479,7 +450,32 @@ public class RegisterCommand extends FrontCommand {
         return false;
     }
 
-    /*
+    private List<Playadatospersonas> extraeTodasLasOcurrenciasDeUnaPersonaEnPlayaDatosPersonas(Playadatospersonas registroInsercionEnBD) throws NamingException {
+        PlayadatospersonasFacade pdpF = InitialContext.doLookup("java:global/AcampadasPajara/AcampadasPajara-ejb/PlayadatospersonasFacade");
+        List<Playadatospersonas> todas = pdpF.findAll();
+        List<Playadatospersonas> filtradas = new ArrayList<>();
+
+        for (Playadatospersonas registroTabla : todas) {
+            if (registroInsercionEnBD.getDni().equals(registroTabla.getDni())) {
+                filtradas.add(registroTabla);
+            }
+        }
+        return filtradas;
+    }
+
+    private Playaplazasfechaocupadas compruebaSiExisteEnPlayaPlazasFechaOcupadas(String playa, String fecha) throws NamingException {
+        PlayaplazasfechaocupadasFacade pdpF = InitialContext.doLookup("java:global/AcampadasPajara/AcampadasPajara-ejb/PlayaplazasfechaocupadasFacade");
+        List<Playaplazasfechaocupadas> todas = pdpF.findAll();
+
+        for (Playaplazasfechaocupadas registroBuscado : todas) {
+            if (registroBuscado.getPlaya().equals(playa) && registroBuscado.getFecha().equals(fecha)) {
+                return registroBuscado;
+            }
+        }
+        return new Playaplazasfechaocupadas(null, playa, fecha, 0);
+    }
+}
+/*
      private void crearPDF() {
      /*
      pdfCommand test = new pdfCommand();
@@ -491,4 +487,3 @@ public class RegisterCommand extends FrontCommand {
      }
          
      }*/
-}

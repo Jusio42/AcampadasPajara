@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author W7
+ * @author Rubn_
  */
 @Entity
 @Table(name = "PLAYAPLAZASMAXIMASASOCIADAS")
@@ -32,6 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Playaplazasmaximasasociadas.findByPpmaId", query = "SELECT p FROM Playaplazasmaximasasociadas p WHERE p.ppmaId = :ppmaId"),
     @NamedQuery(name = "Playaplazasmaximasasociadas.findByNplazasmaximo", query = "SELECT p FROM Playaplazasmaximasasociadas p WHERE p.nplazasmaximo = :nplazasmaximo")})
 public class Playaplazasmaximasasociadas implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

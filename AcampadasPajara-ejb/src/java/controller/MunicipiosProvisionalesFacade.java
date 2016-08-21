@@ -12,10 +12,11 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author W7
+ * @author Rubn_
  */
 @Stateless
 public class MunicipiosProvisionalesFacade extends AbstractFacade<MunicipiosProvisionales> {
+
     @PersistenceContext(unitName = "AcampadasPajara-ejbPU")
     private EntityManager em;
 

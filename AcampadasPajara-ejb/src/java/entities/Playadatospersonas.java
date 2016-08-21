@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author W7
+ * @author Rubn_
  */
 @Entity
 @Table(name = "PLAYADATOSPERSONAS")
@@ -46,6 +46,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Playadatospersonas.findByMatriculaCar", query = "SELECT p FROM Playadatospersonas p WHERE p.matriculaCar = :matriculaCar"),
     @NamedQuery(name = "Playadatospersonas.findByRecoger", query = "SELECT p FROM Playadatospersonas p WHERE p.recoger = :recoger")})
 public class Playadatospersonas implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

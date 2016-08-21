@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author W7
+ * @author Rubn_
  */
 @Entity
 @Table(name = "MUNICIPIOS_PROVISIONALES")
@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "MunicipiosProvisionales.findByMuniProvId", query = "SELECT m FROM MunicipiosProvisionales m WHERE m.muniProvId = :muniProvId"),
     @NamedQuery(name = "MunicipiosProvisionales.findByMuniProvisionalId", query = "SELECT m FROM MunicipiosProvisionales m WHERE m.muniProvisionalId = :muniProvisionalId")})
 public class MunicipiosProvisionales implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

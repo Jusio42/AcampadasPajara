@@ -1,6 +1,5 @@
 package entities;
 
-import controller.HistorialFacade;
 import controller.MunicipiosFacade;
 import controller.PlayadatospersonasFacade;
 import java.io.FileNotFoundException;
