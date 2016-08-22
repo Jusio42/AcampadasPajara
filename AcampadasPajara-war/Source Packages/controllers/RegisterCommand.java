@@ -116,6 +116,9 @@ public class RegisterCommand extends FrontCommand {
             if (!comprobarQueNoEstaVacio(dni)) {
                 posibleError += "DNI : - Introduzca un DNI por favor.<br>";
             }
+            if (!comprobarValidezDNI(dni)) {
+                posibleError += "DNI : - El DNI parece no ser correcto, por favor compruebalo.<br>";
+            }
 
             //----- MUNICIPIOS
             if (municipio.length() == 0) {
@@ -144,7 +147,7 @@ public class RegisterCommand extends FrontCommand {
             //----- FAX
             if (!comprobarQueNoEsNulo(fax)) {
                 fax = "Sin fax";
-            }else{
+            } else {
                 if (!comprobarQueNoHayLetras(fax)) {
                     posibleError += "Fax : - El Fax introducido no es válido.<br>";
                 }
@@ -152,7 +155,7 @@ public class RegisterCommand extends FrontCommand {
                     posibleError += "Fax : - El Fax introducido no es válido.<br>";
                 }
             }
-            
+
             //----- TELEFONO
             if (!comprobarQueNoHayLetras(telefono)) {
                 posibleError += "Telefono : - El Telefono introducido no es válido.<br>";
@@ -183,6 +186,7 @@ public class RegisterCommand extends FrontCommand {
             }
 
             if (!comprobarCaravanaParaIntroducirMatricula(tipoAcampada, matriculaCaravana)) {
+                setErrorTrue();
                 posibleError += "Matricula Caravana : - Por favor introduza la matrícula de su caravana.<br>";
             }
             if (!comprobarCaravanaSoloUnaCaseta(tipoAcampada, numeroCasetas)) {
@@ -208,11 +212,12 @@ public class RegisterCommand extends FrontCommand {
             if (errorDeParametros) {
                 session.setAttribute("problemas", posibleError);
                 forward("/displayErrors.jsp");
+            } else {
+                insertaEnPlayaDatosPersonas(registroInsercionEnBD);
+                insertaEnPlayaPlazasFechasOcupadas(registroInsercionEnBD);
+                forward("/reservaHecha.jsp");
             }
-            
-            insertaEnPlayaDatosPersonas(registroInsercionEnBD);
-            insertaEnPlayaPlazasFechasOcupadas(registroInsercionEnBD);
-            forward("/reservaHecha.jsp");
+
         } catch (ServletException | IOException | NamingException | ParseException ex) {
             Logger.getLogger(RegisterCommand.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -288,7 +293,7 @@ public class RegisterCommand extends FrontCommand {
     private boolean comprobarCaravanaParaIntroducirMatricula(String caravanaOCaseta, String matriculaCaravana) {
         if (caravanaOCaseta.equals("Caseta")) {
             return true;
-        } else if (matriculaCaravana.length() > 5) {
+        } else if (matriculaCaravana.length() > 5 && !matriculaCaravana.equals("Sin caravana")) {
             return true;
         }
         return false;
@@ -474,16 +479,31 @@ public class RegisterCommand extends FrontCommand {
         }
         return new Playaplazasfechaocupadas(null, playa, fecha, 0);
     }
+
+    private boolean comprobarValidezDNI(String dni) {
+        String dniLetra = extraerLetraDni(dni);
+        if (!dni.substring(8, 9).toLowerCase().equals(dniLetra)){
+            setErrorTrue();
+            return false;
+        }
+        return true;
+    }
+    
+    private String extraerLetraDni (String dni){
+        String[] myStringArray = {"t","r","w","a","g","m","y","f","p","d","x","b"
+        ,"n","j","z","s","q","v","h","l","c","k","e"};
+        return myStringArray[Integer.parseInt(dni.substring(0, 8))%23];
+    }
 }
 /*
-     private void crearPDF() {
-     /*
-     pdfCommand test = new pdfCommand();
+ private void crearPDF() {
+ /*
+ pdfCommand test = new pdfCommand();
         
-     try {
-     test.createPdf("c:/ProyectoAcampadaRuben/prueba.pdf");
-     } catch (DocumentException | MessagingException ex) {
-     Logger.getLogger(RegisterCommand.class.getName()).log(Level.SEVERE, null, ex);
-     }
+ try {
+ test.createPdf("c:/ProyectoAcampadaRuben/prueba.pdf");
+ } catch (DocumentException | MessagingException ex) {
+ Logger.getLogger(RegisterCommand.class.getName()).log(Level.SEVERE, null, ex);
+ }
          
-     }*/
+ }*/
