@@ -116,10 +116,11 @@ public class RegisterCommand extends FrontCommand {
             if (!comprobarQueNoEstaVacio(dni)) {
                 posibleError += "DNI : - Introduzca un DNI por favor.<br>";
             }
+            /*
             if (!comprobarValidezDNI(dni)) {
                 posibleError += "DNI : - El DNI parece no ser correcto, por favor compruebalo.<br>";
             }
-
+             */
             //----- MUNICIPIOS
             if (municipio.length() == 0) {
                 if (nomunicipio.length() == 0) {
@@ -409,9 +410,9 @@ public class RegisterCommand extends FrontCommand {
         if (comprobarSiEstaDNI(registroInsercionEnBD.getDni())) {
             List<Playadatospersonas> ocurrenciasDeUnaPersona = extraeTodasLasOcurrenciasDeUnaPersonaEnPlayaDatosPersonas(registroInsercionEnBD);
             for (Playadatospersonas registroBaseDatos : ocurrenciasDeUnaPersona) {
-                if (fechaEnRangoFechas(registroInsercionEnBD.getFechaEntrada(), registroBaseDatos.getFechaEntrada(), registroBaseDatos.getFechaSalida())) {
+                if (fechaEnRangoFechas(registroInsercionEnBD.getFechaEntrada(), registroInsercionEnBD.getFechaSalida(), registroBaseDatos.getFechaEntrada(), registroBaseDatos.getFechaSalida())) {
                     posibleError += "Lo siento hemos detectado que usted ya tiene una plaza asignada en el periodo [" + registroBaseDatos.getFechaEntrada() + ","
-                            + registroBaseDatos.getFechaSalida() + "] en la playa " + registroBaseDatos.getPlaya();
+                            + registroBaseDatos.getFechaSalida() + "] en la playa " + registroBaseDatos.getPlaya()+"<br>";
                     setErrorTrue();
                 }
             }
@@ -444,11 +445,11 @@ public class RegisterCommand extends FrontCommand {
         }
     }
 
-    private boolean fechaEnRangoFechas(String fechaAMirar, String fechaLimInf, String fechaLimSup) throws ParseException {
+    private boolean fechaEnRangoFechas(String fechaLimInf, String fechaLimSup, String fechaRegistroInf, String fechaRegistroSup) throws ParseException {
         fechaLimSup = sumarUnDiaAFechaEntrada(fechaLimSup);
-        while (!fechaLimInf.equals(fechaLimSup)) {
-            if (fechaLimInf.equals(fechaAMirar)) {
-                return true;
+        while (!fechaLimInf.equals(fechaLimSup)){
+            if (fechaLimInf.equals(fechaRegistroInf)||fechaLimInf.equals(fechaRegistroSup)){
+                    return true;
             }
             fechaLimInf = sumarUnDiaAFechaEntrada(fechaLimInf);
         }
@@ -482,17 +483,16 @@ public class RegisterCommand extends FrontCommand {
 
     private boolean comprobarValidezDNI(String dni) {
         String dniLetra = extraerLetraDni(dni);
-        if (!dni.substring(8, 9).toLowerCase().equals(dniLetra)){
+        if (!dni.substring(8, 9).toLowerCase().equals(dniLetra)) {
             setErrorTrue();
             return false;
         }
         return true;
     }
-    
-    private String extraerLetraDni (String dni){
-        String[] myStringArray = {"t","r","w","a","g","m","y","f","p","d","x","b"
-        ,"n","j","z","s","q","v","h","l","c","k","e"};
-        return myStringArray[Integer.parseInt(dni.substring(0, 8))%23];
+
+    private String extraerLetraDni(String dni) {
+        String[] myStringArray = {"t", "r", "w", "a", "g", "m", "y", "f", "p", "d", "x", "b", "n", "j", "z", "s", "q", "v", "h", "l", "c", "k", "e"};
+        return myStringArray[Integer.parseInt(dni.substring(0, 8)) % 23];
     }
 }
 /*
