@@ -13,7 +13,9 @@
     </head>
     <body>
         <h1>Reserva hecha con éxito, disfruta de tu estancia.</h1>
-        <input  type="hidden" name="command" value="GoToFormCommand">
-        <input type="submit" value="Volver al formulario">
+        <form>
+            <input  type="hidden" name="command" value="GoToFormCommand">
+            <input type="submit" value="Volver al formulario">
+        </form>
     </body>
 </html>

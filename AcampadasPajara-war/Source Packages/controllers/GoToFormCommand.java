@@ -19,7 +19,7 @@ public class GoToFormCommand extends FrontCommand{
     @Override
     public void process() {
         try {
-            forward("/index.jsp");
+            forward("/FrontController?command=GetInitialDataCommand");
         } catch (ServletException ex) {
             Logger.getLogger(GoToFormCommand.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {

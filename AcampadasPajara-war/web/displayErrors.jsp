@@ -31,8 +31,10 @@
         <p style="color:red" class="lead"><%=problemas%></p><br><br>
 
         <h3>La reserva no se ha efectuado, puede volver atras y rellenar correctamente el formualario.</h3>
-        <input  type="hidden" name="command" value="GoToFormCommand">
-        <input type="submit" value="Volver al formulario">
+        <form>
+            <input  type="hidden" name="command" value="GoToFormCommand">
+            <input type="submit" value="Volver al formulario">
+        </form>
     </center>
 </body>
 </html>
