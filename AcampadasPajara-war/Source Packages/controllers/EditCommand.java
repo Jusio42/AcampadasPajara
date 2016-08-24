@@ -12,19 +12,18 @@ import javax.servlet.ServletException;
 
 /**
  *
- * @author Rubn_
+ * @author W7
  */
-public class GoToFormCommand extends FrontCommand{
+public class EditCommand extends FrontCommand {
 
     @Override
     public void process() {
         try {
-            //forward("/FrontController?command=GetInitialDataCommand");
-            forward("/selectOption.jsp");
+            forward("/FrontController?command=GetInitialDataCommand");
         } catch (ServletException ex) {
-            Logger.getLogger(GoToFormCommand.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EditCommand.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(GoToFormCommand.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EditCommand.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

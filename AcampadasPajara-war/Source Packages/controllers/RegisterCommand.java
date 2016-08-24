@@ -456,11 +456,10 @@ public class RegisterCommand extends FrontCommand {
         return false;
     }
 
-    private List<Playadatospersonas> extraeTodasLasOcurrenciasDeUnaPersonaEnPlayaDatosPersonas(Playadatospersonas registroInsercionEnBD) throws NamingException {
+    public List<Playadatospersonas> extraeTodasLasOcurrenciasDeUnaPersonaEnPlayaDatosPersonas(Playadatospersonas registroInsercionEnBD) throws NamingException {
         PlayadatospersonasFacade pdpF = InitialContext.doLookup("java:global/AcampadasPajara/AcampadasPajara-ejb/PlayadatospersonasFacade");
         List<Playadatospersonas> todas = pdpF.findAll();
         List<Playadatospersonas> filtradas = new ArrayList<>();
-
         for (Playadatospersonas registroTabla : todas) {
             if (registroInsercionEnBD.getDni().equals(registroTabla.getDni())) {
                 filtradas.add(registroTabla);
