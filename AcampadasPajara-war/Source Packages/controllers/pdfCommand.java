@@ -22,6 +22,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 //--------------
+/*
 // Librerias pdf
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -29,19 +30,26 @@ import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.File;
+*/
 
 public class pdfCommand extends FrontCommand {
 
+    @Override
+    public void process() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
     /*
      ---------------------------------------------------------
      PROBLEMA AQUÍ: CAMBIAR POR RUTA RELATIVA -------------------
      ---------------------------------------------------------
-     */
+     
     public static final String result = "c:/ProyectoAcampadaRuben/prueba.pdf";
-
     public void createPdf(String filename) throws DocumentException, IOException, MessagingException {
         //File file = new File("c:/ProyectoAcampadaRuben/prueba.txt");
         // step 1
+  
+        
         Document document = new Document();
         Paragraph preface = new Paragraph();
         Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
@@ -71,7 +79,7 @@ public class pdfCommand extends FrontCommand {
         Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
                     protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
-                        return new javax.mail.PasswordAuthentication("rubendavidbm@gmail.com", "asusion742");
+                        return new javax.mail.PasswordAuthentication("alguien", "contraseñadealguien");
                     }
                 });
         try {
@@ -113,4 +121,5 @@ public class pdfCommand extends FrontCommand {
     public void process() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    */
 }
